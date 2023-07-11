@@ -6,6 +6,58 @@
     <title>Document</title>
 </head>
 <body>
+        <!-- CONGRATULATION -->
+        <div id="congratulation">
+            <p>Congratulations!</p>
+        </div>
+
+         <!-- SCORE -->
+        <div id="scoreboard">
+          <p>Score: <span id="score">0</span></p>
+          </div>
+
+         <!-- BUTTONS -->
+         <div>
+            <button id="tryAgainButton">Try Again</button>
+            <button id="exitButton">Exit</button>
+        </div>
+      
+    
+
+    <script>
+        let score = 0;
+        const congratulationScore = 0;
+
+        function updateScore(newScore) {
+            score = newScore;
+        document.getElementById("score").textContent = score;
+  
+             if (score === congratulationScore) {
+                document.getElementById("congratulation").style.display = "block";
+            } else {
+             document.getElementById("congratulation").style.display = "none";
+            }
+        }
+
+        updateScore(score);
+
+        document.getElementById("incrementButton").addEventListener("click", function() {
+            score += 1;
+        updateScore(score);
+        });
+
+        document.getElementById("tryAgainButton").addEventListener("click", function() {
+            score = 0;
+            updateScore(score);
+        });
+
+        document.getElementById("exitButton").addEventListener("click", function() {
+            // for exit
+        });
+
+
+    </script>
+
     
 </body>
 </html>
