@@ -4,23 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        #scoreboard {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 80vh;
+        }
+
+        .button-container {
+             margin-top: 10px;
+        }
+        .score-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #333;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+
+    </style>
 </head>
 <body>
-        <!-- CONGRATULATION -->
-        <div id="congratulation">
-            <p>Congratulations!</p>
+    <div id="scoreboard">
+        <div id="congratulation" style="display: none;">
+          <h2>Congratulations!</h2>
         </div>
-
-         <!-- SCORE -->
-        <div id="scoreboard">
-          <p>Score: <span id="score">0</span></p>
-          </div>
-
-         <!-- BUTTONS -->
-         <div>
-            <button id="tryAgainButton">Try Again</button>
-            <button id="exitButton">Exit</button>
+        <h2>Score: <span id="score">0</span></h2>
+        <div class="button-container">
+          <button id="tryAgainButton" class="score-button">Try Again</button>
+          <button id="exitButton" class="score-button">Exit</button>
         </div>
+      </div>
       
     
 
