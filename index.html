@@ -1,11 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Brainiac Clash</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 400px;
+            height: 200px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            position: relative;
+        }
+
+        #logo-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 8vw;
+            font-weight: bold;
+            color: #333;
+        }
+
+        #logo-text span {
+            display: inline-block;
+            opacity: 0;
+            animation-name: zoomDrop;
+            animation-duration: 3s;
+            animation-timing-function: ease-in-out;
+            animation-fill-mode: forwards;
+            animation-iteration-count: infinite;
+        }
+
+
+        @keyframes zoomDrop {
+            0% {
+                transform: scale(0.1) translateY(-100px);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.2) translateY(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        #logo-text span:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        #logo-text span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        #logo-text span:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        #logo-text span:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        #logo-text span:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        #logo-text span:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+
+        #logo-text span:nth-child(7) {
+            animation-delay: 0.7s;
+        }
+
+        #logo-text span:nth-child(8) {
+            animation-delay: 0.8s;
+        }
+
+        #logo-text span:nth-child(10) {
+            animation-delay: 0.9s;
+        }
+
+        #logo-text span:nth-child(11) {
+            animation-delay: 1s;
+        }
+
+        #logo-text span:nth-child(12) {
+            animation-delay: 1.1s;
+        }
+
+        #logo-text span:nth-child(13) {
+            animation-delay: 1.2s;
+        }
+
+        #logo-text span:nth-child(14) {
+            animation-delay: 1.3s;
+        }
+
+        #logo-text span:nth-child(15) {
+            animation-delay: 1.4s;
+        }
+
+        #logo-text span:nth-child(16) {
+            animation-delay: 1.5s;
+        }
+
+
+        #start-button {
+            padding: 10px 20px;
+            font-size: 4vw;
+            background-color: #f2f2f2;
+            color: #333;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+
+        #start-button:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        #user-name {
+            border-radius: 5%;
+            border: none;
+            color: #333;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Responsiveness*/
+
+        @media (min-width: 600px) {
+            #logo-text {
+                font-size: 40px;
+            }
+
+            #start-button {
+                font-size: 16px;
+            }
+        }
+    </style>
 </head>
+
 <body>
+    <div class="container">
+        <div id="description"></div>
+        <div id="logo-text">
+            <span>B</span>
+            <span>r</span>
+            <span>a</span>
+            <span>i</span>
+            <span>n</span>
+            <span>i</span>
+            <span>a</span>
+            <span>c</span>
+            <span> </span>
+            &nbsp;
+            <span>C</span>
+            <span>l</span>
+            <span>a</span>
+            <span>s</span>
+            <span>h</span>
+        </div>
+    </div>
     
+    <br/>
+    <input type="text" placeholder="Your Name" id="user-name" required/>
+    <br/>
+    <button id="start-button">Start</button>    
+
+    <script>
+        const logoText =document.querySelector('#logo-text')
+        const playerInput = document.querySelector("#user-name")
+        const startButton = document.querySelector("#start-button")
+        const descriptionDisplay = document.querySelector('#description');
+
+        startButton.addEventListener('click', startGame)
+
+        let isGameActive = false;
+        let playerName;
+        
+        function startGame() {
+            playerName = playerInput.value;
+            if (playerName === '') {
+                alert('Name required!');
+                return;
+            };
+
+            logoText.style.display = 'none';
+            playerInput.style.display = 'none';
+            startButton.style.display = 'none';
+            descriptionDisplay.innerHTML = playerName + ' Please Choose Category';
+            isGameActive = true;
+            // category();
+        };
+
+        // console.log("startGame");
+
+
+    </script>
 </body>
+
 </html>
