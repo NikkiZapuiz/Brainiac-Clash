@@ -261,7 +261,40 @@
         
 
         // console.log("startGame");
+        fetch('https://opentdb.com/api.php?amount=20&category=9&difficulty=easy&type=multiple')
+            .then((res) => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                console.log('error')
+            }
+         }).then((data) => {
+                const difficulty = data.difficulty;
+         })
 
+         const difficultyList = document.getElementById('easy');
+
+
+         fetch('https://opentdb.com/api.php?amount=20&category=9&difficulty=medium&type=multiple')
+         .then((res) => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                console.log('error')
+            }
+         }).then((data) => {
+                const res = data.difficulty;
+         })
+         fetch('https://opentdb.com/api.php?amount=20&category=9&difficulty=hard&type=multiple')
+         .then((res) => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                console.log('error')
+            }
+         }).then((data) => {
+            const res = data.difficulty;
+         })
 
     </script>
 </body>
