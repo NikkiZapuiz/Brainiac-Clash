@@ -138,11 +138,16 @@
             cursor: pointer;
         }
 
+        #description {
+            margin-top: 20px;
+            margin-left: 50px;
+        }
+
         #categoryBtn-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 200px;
+            margin-top: -170px;
         }
         .category-button {
             padding: 10px 20px;
@@ -219,7 +224,9 @@
         const playerInput = document.querySelector("#user-name")
         const startButton = document.querySelector("#start-button")
         const descriptionDisplay = document.querySelector('#description');
+        const categoryButton = document.querySelector('#categoryBtn-container')
 
+        categoryButton.style.display = 'none';
         startButton.addEventListener('click', startGame)
 
         let isGameActive = false;
@@ -235,10 +242,18 @@
             logoText.style.display = 'none';
             playerInput.style.display = 'none';
             startButton.style.display = 'none';
-            descriptionDisplay.innerHTML = playerName + ' Please Choose Category';
+            descriptionDisplay.innerHTML = `Hi ${playerName} Please Choose Category:`;
+            categoryButton.style.display = '';
             isGameActive = true;
-            // category();
+            category();
         };
+
+        
+        function category() {
+
+        }
+
+        
 
         // console.log("startGame");
 
