@@ -173,6 +173,14 @@
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
         }
 
+        
+
+        #game-timer {
+            border-radius: 50%;
+            border: 1px solid black;
+            padding: 10px;
+        }
+
         /* Responsiveness*/
 
         @media (min-width: 600px) {
@@ -218,6 +226,10 @@
         <button class="category-button" id="medium">Medium</button>
         <button class="category-button" id="hard">Hard</button>
     </div>
+    
+    <div id="game-timer"></div>
+    <div id="questioner"></div>
+    <ul id="game-choices"></ul>
 
     <script>
         const logoText =document.querySelector('#logo-text')
@@ -227,8 +239,12 @@
         const categoryButton = document.querySelector('#categoryBtn-container')
         const easyCategory = document.querySelector('#easy');
         const mediumCategory = document.querySelector('#medium');
-        const hardCategory = documenet.querySelector('#hard');
+        const hardCategory = document.querySelector('#hard');
+        const gameTimer = document.querySelector('#game-timer');
+        const gameQuestioner = document.querySelector('#questioner');
+        const gameChoices = document.querySelector('#game-choices');
 
+        // gameTimer.style.display = 'none';
         categoryButton.style.display = 'none';
         startButton.addEventListener('click', startGame)
 
@@ -257,6 +273,24 @@
             mediumCategory.addEventListener('click', mediumGame);
             hardCategory.addEventListener('click', hardGame);
         }
+
+        function createGame() {
+            
+        }
+
+        let timerCount = 15;
+        let timer;
+
+        const decrementTimer = () => {
+            if (timerCount === 0) {
+             clearInterval(timer);
+        }
+
+        gameTimer.textContent = timerCount;
+        timerCount--;
+        };
+
+        timer = setInterval(decrementTimer, 1000);
 
         
 
