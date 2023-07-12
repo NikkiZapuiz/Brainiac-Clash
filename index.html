@@ -225,6 +225,9 @@
         const startButton = document.querySelector("#start-button")
         const descriptionDisplay = document.querySelector('#description');
         const categoryButton = document.querySelector('#categoryBtn-container')
+        const easyCategory = document.querySelector('#easy');
+        const mediumCategory = document.querySelector('#medium');
+        const hardCategory = documenet.querySelector('#hard');
 
         categoryButton.style.display = 'none';
         startButton.addEventListener('click', startGame)
@@ -250,7 +253,9 @@
 
         
         function category() {
-
+            easyCategory.addEventListener('click', easyGame);
+            mediumCategory.addEventListener('click', mediumGame);
+            hardCategory.addEventListener('click', hardGame);
         }
 
         
