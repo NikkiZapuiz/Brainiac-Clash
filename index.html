@@ -149,6 +149,7 @@
             align-items: center;
             margin-top: -170px;
         }
+
         .category-button {
             padding: 10px 20px;
             font-size: 16px;
@@ -173,7 +174,7 @@
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
         }
 
-        
+
 
         #game-timer {
             border-radius: 50%;
@@ -216,23 +217,23 @@
             <span>h</span>
         </div>
     </div>
-    
-    <br/>
-    <input type="text" placeholder="Your Name" id="user-name" required/>
-    <br/>
+
+    <br />
+    <input type="text" placeholder="Your Name" id="user-name" required />
+    <br />
     <button id="start-button">Start</button>
     <div id="categoryBtn-container">
         <button class="category-button" id="easy">Easy</button>
         <button class="category-button" id="medium">Medium</button>
         <button class="category-button" id="hard">Hard</button>
     </div>
-    
+
     <div id="game-timer"></div>
     <div id="questioner"></div>
     <ul id="game-choices"></ul>
 
     <script>
-        const logoText =document.querySelector('#logo-text')
+        const logoText = document.querySelector('#logo-text')
         const playerInput = document.querySelector("#user-name")
         const startButton = document.querySelector("#start-button")
         const descriptionDisplay = document.querySelector('#description');
@@ -250,7 +251,7 @@
 
         let isGameActive = false;
         let playerName;
-        
+
         function startGame() {
             playerName = playerInput.value;
             if (playerName === '') {
@@ -267,7 +268,7 @@
             category();
         };
 
-        
+
         function category() {
             easyCategory.addEventListener('click', easyGame);
             mediumCategory.addEventListener('click', mediumGame);
@@ -275,7 +276,7 @@
         }
 
         function createGame() {
-            
+
         }
 
         let timerCount = 15;
@@ -283,52 +284,52 @@
 
         const decrementTimer = () => {
             if (timerCount === 0) {
-             clearInterval(timer);
-        }
+                clearInterval(timer);
+            }
 
-        gameTimer.textContent = timerCount;
-        timerCount--;
+            gameTimer.textContent = timerCount;
+            timerCount--;
         };
 
         timer = setInterval(decrementTimer, 1000);
 
-        
+
 
         // console.log("startGame");
         fetch('https://opentdb.com/api.php?amount=20&category=9&difficulty=easy&type=multiple')
             .then((res) => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                console.log('error')
-            }
-         }).then((data) => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    console.log('error')
+                }
+            }).then((data) => {
                 const difficulty = data.difficulty;
-         })
+            })
 
-         const difficultyList = document.getElementById('easy');
+        const difficultyList = document.getElementById('easy');
 
 
-         fetch('https://opentdb.com/api.php?amount=20&category=9&difficulty=medium&type=multiple')
-         .then((res) => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                console.log('error')
-            }
-         }).then((data) => {
+        fetch('https://opentdb.com/api.php?amount=20&category=9&difficulty=medium&type=multiple')
+            .then((res) => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    console.log('error')
+                }
+            }).then((data) => {
                 const res = data.difficulty;
-         })
-         fetch('https://opentdb.com/api.php?amount=20&category=9&difficulty=hard&type=multiple')
-         .then((res) => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                console.log('error')
-            }
-         }).then((data) => {
-            const res = data.difficulty;
-         })
+            })
+        fetch('https://opentdb.com/api.php?amount=20&category=9&difficulty=hard&type=multiple')
+            .then((res) => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    console.log('error')
+                }
+            }).then((data) => {
+                const res = data.difficulty;
+            })
 
     </script>
 </body>
