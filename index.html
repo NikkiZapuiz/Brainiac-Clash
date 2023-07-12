@@ -255,9 +255,6 @@
 
          const difficultyList = document.getElementById('easy');
 
-         difficultyList.textContent = difficulty[i.difficulty]
-         difficultyList.appendChild(difficultyList);
-
 
          fetch('https://opentdb.com/api.php?amount=20&category=9&difficulty=medium&type=multiple')
          .then((res) => {
