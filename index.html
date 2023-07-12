@@ -143,6 +143,13 @@
             color: #fff;
         }
 
+        #user-name {
+            border-radius: 5%;
+            border: none;
+            color: #333;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
         /* Responsiveness*/
 
         @media (min-width: 600px) {
@@ -159,6 +166,7 @@
 
 <body>
     <div class="container">
+        <div id="description"></div>
         <div id="logo-text">
             <span>B</span>
             <span>r</span>
@@ -177,15 +185,41 @@
             <span>h</span>
         </div>
     </div>
-    <br />
-    <button id="start-button">Start</button>
+    
+    <br/>
+    <input type="text" placeholder="Your Name" id="user-name" required/>
+    <br/>
+    <button id="start-button">Start</button>    
 
     <script>
-        //logic for later
-        document.querySelector("#start-button").addEventListener("click", function () {
-            // Start game logic
-            console.log("Game started!");
-        });
+        const logoText =document.querySelector('#logo-text')
+        const playerInput = document.querySelector("#user-name")
+        const startButton = document.querySelector("#start-button")
+        const descriptionDisplay = document.querySelector('#description');
+
+        startButton.addEventListener('click', startGame)
+
+        let isGameActive = false;
+        let playerName;
+        
+        function startGame() {
+            playerName = playerInput.value;
+            if (playerName === '') {
+                alert('Name required!');
+                return;
+            };
+
+            logoText.style.display = 'none';
+            playerInput.style.display = 'none';
+            startButton.style.display = 'none';
+            descriptionDisplay.innerHTML = playerName + ' Please Choose Category';
+            isGameActive = true;
+            // category();
+        };
+
+        // console.log("startGame");
+
+
     </script>
 </body>
 
