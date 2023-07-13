@@ -13,6 +13,7 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
+            font-family: Arial, sans-serif;
         }
 
         .container {
@@ -182,6 +183,55 @@
             padding: 10px;
         }
 
+        #question-container {
+            margin: 50px auto;
+            max-width: 500px;
+        }
+
+        #game-choices {
+            list-style-type: none;
+            padding: 0;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        #game-choices li {
+            margin: 10px;
+        }
+
+        #next-question {
+            margin-top: 20px;
+        }
+
+        #result-container {
+            display: none;
+            margin-top: 50px;
+        }
+
+        #result {
+            font-weight: bold;
+        }
+
+        #correct-answer {
+            margin-top: 10px;
+        }
+
+        button {
+            width: 150px;
+            height: 50px;
+            border-radius: 5%;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* 
+        button:hover {
+            background-color: rgb(84, 188, 236);
+            color: #fff;
+        } */
+
         /* Responsiveness*/
 
         @media (min-width: 600px) {
@@ -223,34 +273,48 @@
     <br />
     <button id="start-button">Start</button>
     <div id="categoryBtn-container">
-        <button class="category-button" id="easy">Easy</button>
+        <button class="category-button" id="easy-button">Easy</button>
         <button class="category-button" id="medium">Medium</button>
         <button class="category-button" id="hard">Hard</button>
     </div>
 
     <div id="game-timer"></div>
-    <div id="questioner"></div>
-    <ul id="game-choices"></ul>
+
+    <div id="question-container">
+        <div id="questioner"></div>
+        <ul id="game-choices"></ul>
+    </div>
+    <div id="result-container">
+        <p id="result"></p>
+        <button id="next-question">Next Question</button>
+    </div>
 
     <script>
-        const logoText = document.querySelector('#logo-text')
-        const playerInput = document.querySelector("#user-name")
-        const startButton = document.querySelector("#start-button")
+        const logoText = document.querySelector('#logo-text');
+        const playerInput = document.querySelector("#user-name");
+        const startButton = document.querySelector("#start-button");
         const descriptionDisplay = document.querySelector('#description');
-        const categoryButton = document.querySelector('#categoryBtn-container')
-        const easyCategory = document.querySelector('#easy');
-        const mediumCategory = document.querySelector('#medium');
-        const hardCategory = document.querySelector('#hard');
+        const categoryButton = document.querySelector('#categoryBtn-container');
+        const easyButton = document.querySelector('#easy-button');
         const gameTimer = document.querySelector('#game-timer');
         const gameQuestioner = document.querySelector('#questioner');
         const gameChoices = document.querySelector('#game-choices');
+        const nextQuestionButton = document.querySelector('#next-question');
+        const resultElement = document.querySelector('#result');
+        const questionContainer = document.querySelector('#question-container');
+        const resultContainer = document.querySelector('#result-container');
 
-        // gameTimer.style.display = 'none';
+        gameTimer.style.display = 'none';
+        questionContainer.style.display = 'none';
+        resultContainer.style.display = 'none';
         categoryButton.style.display = 'none';
-        startButton.addEventListener('click', startGame)
+        startButton.addEventListener('click', startGame);
 
-        let isGameActive = false;
         let playerName;
+        let currentQuestion;
+        let choices;
+        let correctAnswer;
+        let isGameActive = false;
 
         function startGame() {
             playerName = playerInput.value;
@@ -266,17 +330,10 @@
             categoryButton.style.display = '';
             isGameActive = true;
             category();
-        };
-
-
-        function category() {
-            easyCategory.addEventListener('click', easyGame);
-            mediumCategory.addEventListener('click', mediumGame);
-            hardCategory.addEventListener('click', hardGame);
         }
 
-        function createGame() {
-
+        function category() {
+            easyButton.addEventListener('click', showQuestionEasy);
         }
 
         let timerCount = 15;
@@ -293,43 +350,110 @@
 
         timer = setInterval(decrementTimer, 1000);
 
+        function showQuestionEasy() {
+            fetch('https://opentdb.com/api.php?amount=1&category=9&difficulty=easy&type=multiple')
+                .then((res) => {
+                    if (res.ok) {
+                        return res.json();
+                    } else {
+                        throw new Error('Unable to fetch question data.');
+                    }
+                })
+                .then((data) => {
+                    const questionData = data.results[0];
+                    currentQuestion = decodeHtmlEntities(questionData.question);
+                    correctAnswer = decodeHtmlEntities(questionData.correct_answer);
+                    choices = questionData.incorrect_answers.map(answer => decodeHtmlEntities(answer)).concat(correctAnswer);
+
+                    gameQuestioner.textContent = currentQuestion;
+                    gameChoices.innerHTML = '';
+
+                    for (let i = 0; i < choices.length; i++) {
+                        const choice = choices[i];
+                        const listItem = document.createElement('li');
+                        const choiceButton = document.createElement('button');
+                        choiceButton.textContent = choice;
+                        choiceButton.addEventListener('click', selectChoice);
+                        gameChoices.appendChild(listItem);
+                        listItem.appendChild(choiceButton);
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+
+        // Function to decode HTML entities
+        function decodeHtmlEntities(text) {
+            const entityElement = document.createElement('textarea');
+            entityElement.innerHTML = text;
+            return entityElement.value;
+        }
+
+        // Show result container and hide question container
+        function showResultContainer() {
+            questionContainer.style.display = 'none';
+            resultContainer.style.display = 'block';
+        }
+
+        // Select choice function
+        function selectChoice() {
+            const selectedChoice = this.textContent;
+            checkAnswer(selectedChoice);
+        }
+
+        // Check answer and display the result
+        function checkAnswer(userAnswer) {
+            const choiceButtons = gameChoices.getElementsByTagName('button');
+
+            for (let i = 0; i < choiceButtons.length; i++) {
+                const choiceButton = choiceButtons[i];
+            }
+
+            if (userAnswer === correctAnswer) {
+                resultElement.textContent = "Correct!";
+            } else {
+                resultElement.textContent = "Incorrect!";
+            }
+
+            showResultContainer();
+        }
+
+        // Next question button click handler
+        function nextQuestion() {
+            showQuestionEasy();
+        }
+
+        // Event listener
+        nextQuestionButton.addEventListener('click', nextQuestion);
+
+        // Initial question
+        showQuestionEasy();
 
 
-        // console.log("startGame");
-        fetch('https://opentdb.com/api.php?amount=20&category=9&difficulty=easy&type=multiple')
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    console.log('error')
-                }
-            }).then((data) => {
-                const difficulty = data.difficulty;
-            })
-
-        const difficultyList = document.getElementById('easy');
 
 
-        fetch('https://opentdb.com/api.php?amount=20&category=9&difficulty=medium&type=multiple')
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    console.log('error')
-                }
-            }).then((data) => {
-                const res = data.difficulty;
-            })
-        fetch('https://opentdb.com/api.php?amount=20&category=9&difficulty=hard&type=multiple')
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    console.log('error')
-                }
-            }).then((data) => {
-                const res = data.difficulty;
-            })
+
+        // fetch('https://opentdb.com/api.php?amount=20&category=9&difficulty=medium&type=multiple')
+        //     .then((res) => {
+        //         if (res.ok) {
+        //             return res.json();
+        //         } else {
+        //             console.log('error')
+        //         }
+        //     }).then((data) => {
+        //         const res = data.difficulty;
+        //     })
+        // fetch('https://opentdb.com/api.php?amount=20&category=9&difficulty=hard&type=multiple')
+        //     .then((res) => {
+        //         if (res.ok) {
+        //             return res.json();
+        //         } else {
+        //             console.log('error')
+        //         }
+        //     }).then((data) => {
+        //         const res = data.difficulty;
+        //     })
 
     </script>
 </body>
