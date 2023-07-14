@@ -129,11 +129,11 @@
 
 
         #start-button {
-            padding: 10px 20px;
-            font-size: 4vw;
+            /* padding: 10px 20px; */
+            /* font-size: 4vw; */
             background-color: #f2f2f2;
             color: #333;
-            border: none;
+            /* border: none; */
             border-radius: 50px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
             cursor: pointer;
@@ -164,7 +164,7 @@
         }
 
         #start-button:hover {
-            background-color: #007bff;
+            background-color: rgb(84, 188, 236);
             color: #fff;
         }
 
@@ -173,6 +173,8 @@
             border: none;
             color: #333;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            width: 250px;
+            height: 25px;
         }
 
 
@@ -188,7 +190,7 @@
             max-width: 500px;
         }
 
-        #game-choices {
+        #choices {
             list-style-type: none;
             padding: 0;
             align-items: center;
@@ -196,9 +198,8 @@
             flex-direction: column;
         }
 
-
-        #game-choices li {
-            margin: 10px;
+        #choices li {
+            margin: 10px 0;
         }
 
         #next-question {
@@ -226,13 +227,12 @@
             cursor: pointer;
         }
 
-        /* 
         button:hover {
             background-color: rgb(84, 188, 236);
             color: #fff;
-        } */
+        }
 
-        /* Responsiveness*/
+        /* Responsiveness */
 
         @media (min-width: 600px) {
             #logo-text {
@@ -268,24 +268,27 @@
         </div>
     </div>
 
-    <br />
+    <br/>
     <input type="text" placeholder="Your Name" id="user-name" required />
-    <br />
+    <br/>
+    <br/>
     <button id="start-button">Start</button>
-    <div id="categoryBtn-container">
-        <button class="category-button" id="easy-button">Easy</button>
-        <button class="category-button" id="medium">Medium</button>
-        <button class="category-button" id="hard">Hard</button>
+    <div class="categoryBtn-container">
+        <button id="easy-button">Easy</button>
+        <button id="medium-button">Medium</button>
+        <button id="hard-button">Hard</button>
     </div>
 
     <div id="game-timer"></div>
 
-    <div id="question-container">
-        <div id="questioner"></div>
-        <ul id="game-choices"></ul>
+    <div class="question-container">
+        <h2 id="question"></h2>
+        <ul id="choices"></ul>
     </div>
-    <div id="result-container">
+
+    <div class="result-container">
         <p id="result"></p>
+        <p id="correct-answer"></p>
         <button id="next-question">Next Question</button>
     </div>
 
@@ -294,20 +297,23 @@
         const playerInput = document.querySelector("#user-name");
         const startButton = document.querySelector("#start-button");
         const descriptionDisplay = document.querySelector('#description');
-        const categoryButton = document.querySelector('#categoryBtn-container');
-        const easyButton = document.querySelector('#easy-button');
+        const categoryButton = document.querySelector('.categoryBtn-container');
         const gameTimer = document.querySelector('#game-timer');
         const gameQuestioner = document.querySelector('#questioner');
         const gameChoices = document.querySelector('#game-choices');
         const nextQuestionButton = document.querySelector('#next-question');
         const resultElement = document.querySelector('#result');
-        const questionContainer = document.querySelector('#question-container');
-        const resultContainer = document.querySelector('#result-container');
+        const questionContainer = document.querySelector('.question-container');
+        const questionElement = document.querySelector('#question');
+        const choicesElement = document.querySelector('#choices');
+        const resultContainer = document.querySelector('.result-container');
+        const correctAnswerElement = document.querySelector('#correct-answer');
 
-        gameTimer.style.display = 'none';
         questionContainer.style.display = 'none';
+        gameTimer.style.display = 'none';
         resultContainer.style.display = 'none';
         categoryButton.style.display = 'none';
+
         startButton.addEventListener('click', startGame);
 
         let playerName;
@@ -326,15 +332,37 @@
             logoText.style.display = 'none';
             playerInput.style.display = 'none';
             startButton.style.display = 'none';
-            descriptionDisplay.innerHTML = `Hi ${playerName} Please Choose Category:`;
-            categoryButton.style.display = '';
+
             isGameActive = true;
             category();
         }
 
         function category() {
-            easyButton.addEventListener('click', showQuestionEasy);
+            categoryButton.style.display = '';
+            descriptionDisplay.innerHTML = `Hi! ${playerName} Please Choose your Category:`;
+            const easyButton = document.querySelector('#easy-button')
+
+
+
+            easyButton.addEventListener('click', askQuestion);
         }
+
+        // const mediumButton = document.querySelector('#medium-button')
+        // function handleButtonClick() {
+        // }
+
+        // mediumButton.addEventListener('click', handleButtonClick);
+
+        // const hardButton = document.querySelector('#hard-button')
+        // function handleButtonClick() {
+        //     console.log('Button clicked!');
+        // }
+        // hardButton.addEventListener('click', handleButtonClick);
+        // }
+
+
+
+
 
         let timerCount = 15;
         let timer;
@@ -350,13 +378,16 @@
 
         timer = setInterval(decrementTimer, 1000);
 
-        function showQuestionEasy() {
+
+        function askQuestion() {
+            categoryButton.style.display = 'none';
+            descriptionDisplay.innerHTML = ``;
             fetch('https://opentdb.com/api.php?amount=1&category=9&difficulty=easy&type=multiple')
                 .then((res) => {
                     if (res.ok) {
                         return res.json();
                     } else {
-                        throw new Error('Unable to fetch question data.');
+                        throw new Error('Error fetching questions');
                     }
                 })
                 .then((data) => {
@@ -365,8 +396,8 @@
                     correctAnswer = decodeHtmlEntities(questionData.correct_answer);
                     choices = questionData.incorrect_answers.map(answer => decodeHtmlEntities(answer)).concat(correctAnswer);
 
-                    gameQuestioner.textContent = currentQuestion;
-                    gameChoices.innerHTML = '';
+                    questionElement.textContent = currentQuestion;
+                    choicesElement.innerHTML = '';
 
                     for (let i = 0; i < choices.length; i++) {
                         const choice = choices[i];
@@ -374,9 +405,11 @@
                         const choiceButton = document.createElement('button');
                         choiceButton.textContent = choice;
                         choiceButton.addEventListener('click', selectChoice);
-                        gameChoices.appendChild(listItem);
+                        choicesElement.appendChild(listItem);
                         listItem.appendChild(choiceButton);
                     }
+                    console.log('askQuestion')
+                    showQuestionContainer();
                 })
                 .catch((error) => {
                     console.error(error);
@@ -389,8 +422,11 @@
             entityElement.innerHTML = text;
             return entityElement.value;
         }
+        function showQuestionContainer() {
+            questionContainer.style.display = 'block';
+            resultContainer.style.display = 'none';
+        }
 
-        // Show result container and hide question container
         function showResultContainer() {
             questionContainer.style.display = 'none';
             resultContainer.style.display = 'block';
@@ -404,16 +440,18 @@
 
         // Check answer and display the result
         function checkAnswer(userAnswer) {
-            const choiceButtons = gameChoices.getElementsByTagName('button');
+            const choiceButtons = choicesElement.getElementsByTagName('button');
 
             for (let i = 0; i < choiceButtons.length; i++) {
                 const choiceButton = choiceButtons[i];
+
             }
 
             if (userAnswer === correctAnswer) {
                 resultElement.textContent = "Correct!";
             } else {
                 resultElement.textContent = "Incorrect!";
+                correctAnswerElement.textContent = `The correct answer is ${correctAnswer}.`;
             }
 
             showResultContainer();
@@ -421,14 +459,13 @@
 
         // Next question button click handler
         function nextQuestion() {
-            showQuestionEasy();
+            askQuestion();
         }
 
         // Event listener
         nextQuestionButton.addEventListener('click', nextQuestion);
 
-        // Initial question
-        showQuestionEasy();
+        
 
 
 
