@@ -13,12 +13,14 @@ const questionElement = document.querySelector('#question');
 const choicesElement = document.querySelector('#choices');
 const resultContainer = document.querySelector('.result-container');
 const correctAnswerElement = document.querySelector('#correct-answer');
+const leaderBoard =  document.querySelector('.leaderboard')
 
 
 questionContainer.style.display = 'none';
 gameTimer.style.display = 'none';
 resultContainer.style.display = 'none';
 categoryButton.style.display = 'none';
+leaderBoard.style.display = 'none';
 
 
 startButton.addEventListener('click', startGame);
@@ -53,9 +55,13 @@ function category() {
     categoryButton.style.display = '';
     descriptionDisplay.innerHTML = `Hi, ${playerName}! Please choose your category:`;
     const easyButton = document.querySelector('#easy-button');
+    const mediumButton = document.querySelector('#medium-button');
+    const hardButton = document.querySelector('#hard-button');
     easyButton.addEventListener('click', askQuestion);
+    mediumButton.addEventListener('click', mediumQuestion);
+    hardButton.addEventListener('click', hardQuestion);
 }
-
+// EASY
 function askQuestion() {
     categoryButton.style.display = 'none';
     descriptionDisplay.innerHTML = '';
@@ -124,8 +130,6 @@ function checkAnswer(userAnswer) {
         resultElement.textContent = "Incorrect!";
         correctAnswerElement.textContent = `The correct answer is ${correctAnswer}.`;
     }
-
-    nextQuestionButton.disabled = true;
     showResultContainer();
 }
 
@@ -167,3 +171,221 @@ function decodeHtmlEntities(text) {
 // Event listener
 nextQuestionButton.addEventListener('click', askQuestion);
 
+// MEDIUM 
+
+function mediumQuestion() {
+    categoryButton.style.display = 'none';
+    descriptionDisplay.innerHTML = '';
+
+    if (questionsAnswered >= 10) {
+        endGame();
+        return;
+    }
+
+    fetch('https://opentdb.com/api.php?amount=20&category=9&difficulty=medium&type=multiple')
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                throw new Error('Error fetching questions');
+            }
+        })
+        .then((data) => {
+            const questionData = data.results[0];
+            currentQuestion = decodeHtmlEntities(questionData.question);
+            correctAnswer = decodeHtmlEntities(questionData.correct_answer);
+            choices = questionData.incorrect_answers
+                .map(answer => decodeHtmlEntities(answer))
+                .concat(correctAnswer);
+
+            if (doneQuestions.includes(currentQuestion)) {
+                mediumQuestion();
+                return;
+            }
+
+            doneQuestions.push(currentQuestion);
+
+            questionElement.textContent = currentQuestion;
+            choicesElement.innerHTML = '';
+
+            for (let i = 0; i < choices.length; i++) {
+                const choice = choices[i];
+                const listItem = document.createElement('li');
+                const choiceButton = document.createElement('button');
+                choiceButton.textContent = choice;
+                choiceButton.addEventListener('click', selectChoice);
+                listItem.appendChild(choiceButton);
+                choicesElement.appendChild(listItem);
+            }
+
+            showQuestionContainer();
+            questionsAnswered++;
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}
+
+function selectChoice() {
+    const selectedChoice = this.textContent;
+    checkAnswer(selectedChoice);
+}
+
+function checkAnswer(userAnswer) {
+    if (userAnswer === correctAnswer) {
+        resultElement.textContent = "Correct!";
+        correctAnswerElement.textContent = `The correct answer is ${correctAnswer}.`;
+        score++;
+    } else {
+        resultElement.textContent = "Incorrect!";
+        correctAnswerElement.textContent = `The correct answer is ${correctAnswer}.`;
+    }
+    showResultContainer();
+}
+
+function showQuestionContainer() {
+    questionContainer.style.display = 'block';
+    resultContainer.style.display = 'none';
+}
+
+function showResultContainer() {
+    questionContainer.style.display = 'none';
+    resultContainer.style.display = 'block';
+}
+
+function endGame() {
+    isGameActive = false;
+    nextQuestionButton.removeEventListener('click', mediumQuestion);
+    resultElement.textContent = `You answered all the questions!`;
+    correctAnswerElement.textContent = '';
+
+    const scoreElement = document.createElement('div');
+    scoreElement.id = 'score';
+    scoreElement.classList.add('score-container');
+    scoreElement.innerHTML = `Congratulations, ${playerName}! Score: ${score} / ${totalQuestions}`;
+    descriptionDisplay.appendChild(scoreElement);
+
+    gameTimer.style.display = 'none';
+    questionContainer.style.display = 'none';
+    nextQuestionButton.style.display = 'none';
+}
+
+
+// Function to decode HTML entities
+function decodeHtmlEntities(text) {
+    const entityElement = document.createElement('textarea');
+    entityElement.innerHTML = text;
+    return entityElement.value;
+}
+
+
+nextQuestionButton.addEventListener('click', mediumQuestion);
+
+function hardQuestion() {
+    categoryButton.style.display = 'none';
+    descriptionDisplay.innerHTML = '';
+
+    if (questionsAnswered >= 10) {
+        endGame();
+        return;
+    }
+
+    fetch('https://opentdb.com/api.php?amount=20&category=9&difficulty=hard&type=multiple')
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                throw new Error('Error fetching questions');
+            }
+        })
+        .then((data) => {
+            const questionData = data.results[0];
+            currentQuestion = decodeHtmlEntities(questionData.question);
+            correctAnswer = decodeHtmlEntities(questionData.correct_answer);
+            choices = questionData.incorrect_answers
+                .map(answer => decodeHtmlEntities(answer))
+                .concat(correctAnswer);
+
+            if (doneQuestions.includes(currentQuestion)) {
+                hardQuestion();
+                return;
+            }
+
+            doneQuestions.push(currentQuestion);
+
+            questionElement.textContent = currentQuestion;
+            choicesElement.innerHTML = '';
+
+            for (let i = 0; i < choices.length; i++) {
+                const choice = choices[i];
+                const listItem = document.createElement('li');
+                const choiceButton = document.createElement('button');
+                choiceButton.textContent = choice;
+                choiceButton.addEventListener('click', selectChoice);
+                listItem.appendChild(choiceButton);
+                choicesElement.appendChild(listItem);
+            }
+
+            showQuestionContainer();
+            questionsAnswered++;
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}
+
+
+function selectChoice() {
+    const selectedChoice = this.textContent;
+    checkAnswer(selectedChoice);
+}
+
+function checkAnswer(userAnswer) {
+    if (userAnswer === correctAnswer) {
+        resultElement.textContent = "Correct!";
+        correctAnswerElement.textContent = `The correct answer is ${correctAnswer}.`;
+        score++;
+    } else {
+        resultElement.textContent = "Incorrect!";
+        correctAnswerElement.textContent = `The correct answer is ${correctAnswer}.`;
+    }
+    showResultContainer();
+}
+
+function showQuestionContainer() {
+    questionContainer.style.display = 'block';
+    resultContainer.style.display = 'none';
+}
+
+function showResultContainer() {
+    questionContainer.style.display = 'none';
+    resultContainer.style.display = 'block';
+}
+
+function endGame() {
+    isGameActive = false;
+    nextQuestionButton.removeEventListener('click', hardQuestion);
+    resultElement.textContent = `You answered all the questions!`;
+    correctAnswerElement.textContent = '';
+
+    const scoreElement = document.createElement('div');
+    scoreElement.id = 'score';
+    scoreElement.classList.add('score-container');
+    scoreElement.innerHTML = `Congratulations, ${playerName}! Score: ${score} / ${totalQuestions}`;
+    descriptionDisplay.appendChild(scoreElement);
+
+    gameTimer.style.display = 'none';
+    questionContainer.style.display = 'none';
+    nextQuestionButton.style.display = 'none';
+}
+
+
+// Function to decode HTML entities
+function decodeHtmlEntities(text) {
+    const entityElement = document.createElement('textarea');
+    entityElement.innerHTML = text;
+    return entityElement.value;
+}
+
+// Event listener
+nextQuestionButton.addEventListener('click', hardQuestion);
