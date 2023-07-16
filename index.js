@@ -256,8 +256,6 @@ function startTimer() {
         if (timeRemaining <= 0) {
             clearInterval(timer);
             checkAnswer('');
-        } else if (timeRemaining === 3) {
-            gameTimer.style.color = 'red';
         }
     }, 1000);
 }
