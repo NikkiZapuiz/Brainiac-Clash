@@ -163,7 +163,8 @@ body {
 
 #game-timer {
     border-radius: 50%;
-    border: 1px solid black;
+    border: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     padding: 10px;
 }
 
