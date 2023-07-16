@@ -83,7 +83,7 @@ function askQuestion() {
         return;
     }
 
-    fetch('https://opentdb.com/api.php?amount=1&category=9&difficulty=easy&type=multiple')
+    fetch('https://opentdb.com/api.php?amount=20&category=9&difficulty=easy&type=multiple')
         .then((res) => {
             if (res.ok) {
                 return res.json();
@@ -264,8 +264,8 @@ function startTimer() {
 }
 
 function checkAnswer(userAnswer) {
+    clearInterval(timer);
     if (userAnswer === correctAnswer) {
-        clearInterval(timer);
         resultElement.textContent = "Correct!";
         correctAnswerElement.textContent = `The correct answer is ${correctAnswer}.`;
         score += 100;
@@ -312,25 +312,24 @@ function endGame() {
 function showRank() {
     const leaderboardData = JSON.parse(localStorage.getItem('leaderboardData'));
     if (leaderboardData && leaderboardData.length > 0) {
-      leaderboard.style.display = 'block';
-      rankButton.style.display = 'none';
-      
-      const sortedLeaderboard = leaderboardData.sort((a, b) => b.score - a.score);
+        leaderboard.style.display = 'block';
+        rankButton.style.display = 'none';
 
-      scoreList.innerHTML = sortedLeaderboard.map((entry, index) =>
+        const sortedLeaderboard = leaderboardData.sort((a, b) => b.score - a.score);
+
+        scoreList.innerHTML = sortedLeaderboard.map((entry, index) =>
         `<li>${index + 1}. ${entry.name} - ${entry.score} points</li>`
-      ).join('');
+        ).join('');
     } else {
-      alert('No leaderboard data available.');rt('No leaderboard data available.');
+        alert('No leaderboard data available.');rt('No leaderboard data available.');
     }
 
     
 
     scoreElement.style.display = 'none';
 
-  }
-
-  rankButton.addEventListener('click', showRank);
+}
+rankButton.addEventListener('click', showRank);
 
 // Function to decode HTML entities
 function decodeHtmlEntities(text) {
