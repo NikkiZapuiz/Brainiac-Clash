@@ -105,7 +105,7 @@ function askQuestion() {
             }
 
             doneQuestions.push(currentQuestion);
-
+            shuffleArray(choices);
             questionElement.textContent = currentQuestion;
             choicesElement.innerHTML = '';
 
@@ -161,7 +161,7 @@ function mediumQuestion() {
             }
 
             doneQuestions.push(currentQuestion);
-
+            shuffleArray(choices);
             questionElement.textContent = currentQuestion;
             choicesElement.innerHTML = '';
 
@@ -217,7 +217,7 @@ function hardQuestion() {
             }
 
             doneQuestions.push(currentQuestion);
-
+            shuffleArray(choices);
             questionElement.textContent = currentQuestion;
             choicesElement.innerHTML = '';
 
@@ -290,7 +290,6 @@ function showResultContainer() {
 
 function endGame() {
     isGameActive = false;
-    resultElement.textContent = `You answered all the questions!`;
     correctAnswerElement.textContent = '';
 
     const scoreElement = document.createElement('div');
@@ -318,20 +317,16 @@ function showRank() {
         const sortedLeaderboard = leaderboardData.sort((a, b) => b.score - a.score);
 
         scoreList.innerHTML = sortedLeaderboard.map((entry, index) =>
-        `<li>${index + 1}. ${entry.name} - ${entry.score} points</li>`
+            `<li>${index + 1}. ${entry.name} - ${entry.score} points</li>`
         ).join('');
     } else {
-        alert('No leaderboard data available.');rt('No leaderboard data available.');
+        alert('No leaderboard data available.');
     }
-
-    
-
     scoreElement.style.display = 'none';
-
 }
+
 rankButton.addEventListener('click', showRank);
 
-// Function to decode HTML entities
 function decodeHtmlEntities(text) {
     const entityElement = document.createElement('textarea');
     entityElement.innerHTML = text;
@@ -349,3 +344,10 @@ nextQuestionButton.addEventListener('click', function () {
     }
 });
 
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
