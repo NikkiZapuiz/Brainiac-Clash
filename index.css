@@ -6,6 +6,7 @@ body {
     height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
+    background-color: #b3d7ff; /* pastel blue */
 }
 
 .container {
@@ -41,18 +42,15 @@ body {
     animation-iteration-count: infinite;
 }
 
-
 @keyframes zoomDrop {
     0% {
         transform: scale(0.1) translateY(-100px);
         opacity: 0;
     }
-
     50% {
         transform: scale(1.2) translateY(0);
         opacity: 1;
     }
-
     100% {
         transform: scale(1) translateY(0);
         opacity: 1;
@@ -61,6 +59,7 @@ body {
 
 #logo-text span:nth-child(1) {
     animation-delay: 0.1s;
+    color: #6baed6; /* pastel blue */
 }
 
 #logo-text span:nth-child(2) {
@@ -105,35 +104,28 @@ body {
 
 #logo-text span:nth-child(13) {
     animation-delay: 1.2s;
+    color: #f8e26f; /* pastel yellow */
 }
 
 #logo-text span:nth-child(14) {
     animation-delay: 1.3s;
+    color: #f8e26f; /* pastel yellow */
 }
-
-#logo-text span:nth-child(15) {
-    animation-delay: 1.4s;
-}
-
-#logo-text span:nth-child(16) {
-    animation-delay: 1.5s;
-}
-
 
 #start-button {
-    /* padding: 10px 20px; */
-    /* font-size: 4vw; */
     background-color: #f2f2f2;
     color: #333;
-    /* border: none; */
     border-radius: 50px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     cursor: pointer;
+    width: 120px;
+    height: 30  px;
 }
 
 #description {
     margin-top: 20px;
     margin-left: 50px;
+    text-align: center;
 }
 
 #categoryBtn-container {
@@ -156,7 +148,7 @@ body {
 }
 
 #start-button:hover {
-    background-color: rgb(84, 188, 236);
+    background-color: #54bcec; /* pastel blue hover color */
     color: #fff;
 }
 
@@ -169,8 +161,6 @@ body {
     height: 25px;
 }
 
-
-
 #game-timer {
     border-radius: 50%;
     border: 1px solid black;
@@ -179,7 +169,13 @@ body {
 
 #question-container {
     margin: 50px auto;
-    max-width: 500px;
+    max-width: 400px;
+    text-align: center;
+}
+
+#question {
+    font-size: 20px;
+    margin-bottom: 20px;
 }
 
 #choices {
@@ -211,16 +207,28 @@ body {
     margin-top: 10px;
 }
 
-button {
-    width: 150px;
-    height: 50px;
-    border-radius: 5%;
+#choices button {
+    border-radius: 2%;
     border: none;
     cursor: pointer;
+    width: 400px;
+    height: 50px;
 }
 
 button:hover {
-    background-color: rgb(84, 188, 236);
+    background-color: #54bcec; /* pastel blue hover color */
+    color: #fff;
+}
+#next-question {
+    border-radius: 5%;
+    border: none;
+    cursor: pointer;
+    width: 200px;
+    height: 50px;
+}
+
+#next-question:hover {
+    background-color: #54bcec; /* pastel blue hover color */
     color: #fff;
 }
 

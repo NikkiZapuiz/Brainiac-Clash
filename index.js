@@ -14,25 +14,32 @@ const choicesElement = document.querySelector('#choices');
 const resultContainer = document.querySelector('.result-container');
 const correctAnswerElement = document.querySelector('#correct-answer');
 
+
 questionContainer.style.display = 'none';
 gameTimer.style.display = 'none';
 resultContainer.style.display = 'none';
 categoryButton.style.display = 'none';
 
+
 startButton.addEventListener('click', startGame);
+
 
 let playerName;
 let currentQuestion;
 let choices;
 let correctAnswer;
 let isGameActive = false;
+let totalQuestions = 10;
+let questionsAnswered = 0;
+let score = 0;
+let doneQuestions = [];
 
 function startGame() {
     playerName = playerInput.value;
     if (playerName === '') {
         alert('Name required!');
         return;
-    };
+    }
 
     logoText.style.display = 'none';
     playerInput.style.display = 'none';
@@ -44,49 +51,20 @@ function startGame() {
 
 function category() {
     categoryButton.style.display = '';
-    descriptionDisplay.innerHTML = `Hi! ${playerName} Please Choose your Category:`;
-    const easyButton = document.querySelector('#easy-button')
-
-
-
+    descriptionDisplay.innerHTML = `Hi, ${playerName}! Please choose your category:`;
+    const easyButton = document.querySelector('#easy-button');
     easyButton.addEventListener('click', askQuestion);
 }
 
-// const mediumButton = document.querySelector('#medium-button')
-// function handleButtonClick() {
-// }
-
-// mediumButton.addEventListener('click', handleButtonClick);
-
-// const hardButton = document.querySelector('#hard-button')
-// function handleButtonClick() {
-//     console.log('Button clicked!');
-// }
-// hardButton.addEventListener('click', handleButtonClick);
-// }
-
-
-
-
-
-let timerCount = 15;
-let timer;
-
-const decrementTimer = () => {
-    if (timerCount === 0) {
-        clearInterval(timer);
-    }
-
-    gameTimer.textContent = timerCount;
-    timerCount--;
-};
-
-timer = setInterval(decrementTimer, 1000);
-
-
 function askQuestion() {
     categoryButton.style.display = 'none';
-    descriptionDisplay.innerHTML = ``;
+    descriptionDisplay.innerHTML = '';
+
+    if (questionsAnswered >= 10) {
+        endGame();
+        return;
+    }
+
     fetch('https://opentdb.com/api.php?amount=1&category=9&difficulty=easy&type=multiple')
         .then((res) => {
             if (res.ok) {
@@ -99,7 +77,16 @@ function askQuestion() {
             const questionData = data.results[0];
             currentQuestion = decodeHtmlEntities(questionData.question);
             correctAnswer = decodeHtmlEntities(questionData.correct_answer);
-            choices = questionData.incorrect_answers.map(answer => decodeHtmlEntities(answer)).concat(correctAnswer);
+            choices = questionData.incorrect_answers
+                .map(answer => decodeHtmlEntities(answer))
+                .concat(correctAnswer);
+
+            if (doneQuestions.includes(currentQuestion)) {
+                askQuestion();
+                return;
+            }
+
+            doneQuestions.push(currentQuestion);
 
             questionElement.textContent = currentQuestion;
             choicesElement.innerHTML = '';
@@ -110,23 +97,38 @@ function askQuestion() {
                 const choiceButton = document.createElement('button');
                 choiceButton.textContent = choice;
                 choiceButton.addEventListener('click', selectChoice);
-                choicesElement.appendChild(listItem);
                 listItem.appendChild(choiceButton);
+                choicesElement.appendChild(listItem);
             }
-            console.log('askQuestion')
+
             showQuestionContainer();
+            questionsAnswered++;
         })
         .catch((error) => {
             console.error(error);
         });
 }
 
-// Function to decode HTML entities
-function decodeHtmlEntities(text) {
-    const entityElement = document.createElement('textarea');
-    entityElement.innerHTML = text;
-    return entityElement.value;
+
+function selectChoice() {
+    const selectedChoice = this.textContent;
+    checkAnswer(selectedChoice);
 }
+
+function checkAnswer(userAnswer) {
+    if (userAnswer === correctAnswer) {
+        resultElement.textContent = "Correct!";
+        correctAnswerElement.textContent = `The correct answer is ${correctAnswer}.`;
+        score++;
+    } else {
+        resultElement.textContent = "Incorrect!";
+        correctAnswerElement.textContent = `The correct answer is ${correctAnswer}.`;
+    }
+
+    nextQuestionButton.disabled = true;
+    showResultContainer();
+}
+
 function showQuestionContainer() {
     questionContainer.style.display = 'block';
     resultContainer.style.display = 'none';
@@ -137,63 +139,31 @@ function showResultContainer() {
     resultContainer.style.display = 'block';
 }
 
-// Select choice function
-function selectChoice() {
-    const selectedChoice = this.textContent;
-    checkAnswer(selectedChoice);
+function endGame() {
+    isGameActive = false;
+    nextQuestionButton.removeEventListener('click', askQuestion);
+    resultElement.textContent = `You answered all the questions!`;
+    correctAnswerElement.textContent = '';
+
+    const scoreElement = document.createElement('div');
+    scoreElement.id = 'score';
+    scoreElement.classList.add('score-container');
+    scoreElement.innerHTML = `Congratulations, ${playerName}! Score: ${score} / ${totalQuestions}`;
+    descriptionDisplay.appendChild(scoreElement);
+
+    gameTimer.style.display = 'none';
+    questionContainer.style.display = 'none';
+    nextQuestionButton.style.display = 'none';
 }
 
-// Check answer and display the result
-function checkAnswer(userAnswer) {
-    const choiceButtons = choicesElement.getElementsByTagName('button');
 
-    for (let i = 0; i < choiceButtons.length; i++) {
-        // const choiceButton = choiceButtons[i];
-
-    }
-
-    if (userAnswer === correctAnswer) {
-        resultElement.textContent = "Correct!";
-        correctAnswerElement.textContent = `The correct answer is ${correctAnswer}.`;
-    } else {
-        resultElement.textContent = "Incorrect!";
-        correctAnswerElement.textContent = `The correct answer is ${correctAnswer}.`;
-    }
-
-    showResultContainer();
-}
-
-// Next question button click handler
-function nextQuestion() {
-    askQuestion();
+// Function to decode HTML entities
+function decodeHtmlEntities(text) {
+    const entityElement = document.createElement('textarea');
+    entityElement.innerHTML = text;
+    return entityElement.value;
 }
 
 // Event listener
-nextQuestionButton.addEventListener('click', nextQuestion);
+nextQuestionButton.addEventListener('click', askQuestion);
 
-
-
-
-
-
-
-// fetch('https://opentdb.com/api.php?amount=20&category=9&difficulty=medium&type=multiple')
-//     .then((res) => {
-//         if (res.ok) {
-//             return res.json();
-//         } else {
-//             console.log('error')
-//         }
-//     }).then((data) => {
-//         const res = data.difficulty;
-//     })
-// fetch('https://opentdb.com/api.php?amount=20&category=9&difficulty=hard&type=multiple')
-//     .then((res) => {
-//         if (res.ok) {
-//             return res.json();
-//         } else {
-//             console.log('error')
-//         }
-//     }).then((data) => {
-//         const res = data.difficulty;
-//     })
