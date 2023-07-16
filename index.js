@@ -13,13 +13,16 @@ const questionElement = document.querySelector('#question');
 const choicesElement = document.querySelector('#choices');
 const resultContainer = document.querySelector('.result-container');
 const correctAnswerElement = document.querySelector('#correct-answer');
-const leaderBoard = document.querySelector('.leaderboard')
+const rankButton = document.getElementById('rank-button');
+const leaderboard = document.querySelector('.leaderboard');
+const scoreList = document.getElementById('score-list');
 
 questionContainer.style.display = 'none';
 gameTimer.style.display = 'none';
 resultContainer.style.display = 'none';
 categoryButton.style.display = 'none';
-leaderBoard.style.display = 'none';
+leaderboard.style.display = 'none';
+rankButton.style.display = 'none';
 
 startButton.addEventListener('click', startGame);
 
@@ -296,10 +299,38 @@ function endGame() {
     scoreElement.innerHTML = `Congratulations, ${playerName}! Score: ${score} points`;
     descriptionDisplay.appendChild(scoreElement);
 
+    rankButton.style.display = 'block';
     gameTimer.style.display = 'none';
     questionContainer.style.display = 'none';
     nextQuestionButton.style.display = 'none';
+
+    const leaderboardData = JSON.parse(localStorage.getItem('leaderboardData')) || [];
+    leaderboardData.push({ name: playerName, score });
+    localStorage.setItem('leaderboardData', JSON.stringify(leaderboardData));
 }
+
+function showRank() {
+    const leaderboardData = JSON.parse(localStorage.getItem('leaderboardData'));
+    if (leaderboardData && leaderboardData.length > 0) {
+      leaderboard.style.display = 'block';
+      rankButton.style.display = 'none';
+      
+      const sortedLeaderboard = leaderboardData.sort((a, b) => b.score - a.score);
+
+      scoreList.innerHTML = sortedLeaderboard.map((entry, index) =>
+        `<li>${index + 1}. ${entry.name} - ${entry.score} points</li>`
+      ).join('');
+    } else {
+      alert('No leaderboard data available.');rt('No leaderboard data available.');
+    }
+
+    
+
+    scoreElement.style.display = 'none';
+
+  }
+
+  rankButton.addEventListener('click', showRank);
 
 // Function to decode HTML entities
 function decodeHtmlEntities(text) {
@@ -318,3 +349,4 @@ nextQuestionButton.addEventListener('click', function () {
         hardQuestion();
     }
 });
+
