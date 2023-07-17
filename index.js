@@ -56,6 +56,9 @@ function startGame() {
 function category() {
     categoryButton.style.display = '';
     descriptionDisplay.innerHTML = `Hi, ${playerName}! Please choose your category:`;
+    descriptionDisplay.style.boxShadow = "0 0 5px rgba(0, 0, 0, 0.3)";
+    descriptionDisplay.style.fontSize = "large"
+    descriptionDisplay.style.marginTop = "170px"
     const easyButton = document.querySelector('#easy-button');
     const mediumButton = document.querySelector('#medium-button');
     const hardButton = document.querySelector('#hard-button');
