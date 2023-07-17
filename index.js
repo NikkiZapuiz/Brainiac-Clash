@@ -302,6 +302,7 @@ function endGame() {
     gameTimer.style.display = 'none';
     questionContainer.style.display = 'none';
     nextQuestionButton.style.display = 'none';
+    resultContainer.style.display = 'block';
 
     const leaderboardData = JSON.parse(localStorage.getItem('leaderboardData')) || [];
     leaderboardData.push({ name: playerName, score });

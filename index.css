@@ -6,7 +6,7 @@ body {
     height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #b3d7ff; /* pastel blue */
+    background-color: azure;
 }
 
 .container {
@@ -59,39 +59,48 @@ body {
 
 #logo-text span:nth-child(1) {
     animation-delay: 0.1s;
-    color: #6baed6; /* pastel blue */
+    color: #54bcec;
+    font-size: 50px;
 }
 
 #logo-text span:nth-child(2) {
     animation-delay: 0.2s;
+    color: #54bcec;
 }
 
 #logo-text span:nth-child(3) {
     animation-delay: 0.3s;
+    color: #54bcec;
 }
 
 #logo-text span:nth-child(4) {
     animation-delay: 0.4s;
+    color: #54bcec;
 }
 
 #logo-text span:nth-child(5) {
     animation-delay: 0.5s;
+    color: #54bcec;
 }
 
 #logo-text span:nth-child(6) {
     animation-delay: 0.6s;
+    color: #54bcec;
 }
 
 #logo-text span:nth-child(7) {
     animation-delay: 0.7s;
+    color: #54bcec;
 }
 
 #logo-text span:nth-child(8) {
     animation-delay: 0.8s;
+    color: #54bcec;
 }
 
 #logo-text span:nth-child(10) {
     animation-delay: 0.9s;
+    font-size: 50px;
 }
 
 #logo-text span:nth-child(11) {
@@ -104,12 +113,12 @@ body {
 
 #logo-text span:nth-child(13) {
     animation-delay: 1.2s;
-    color: #f8e26f; /* pastel yellow */
+    color: #f7d632; /* pastel yellow */
 }
 
 #logo-text span:nth-child(14) {
     animation-delay: 1.3s;
-    color: #f8e26f; /* pastel yellow */
+    color: #f7d632; /* pastel yellow */
 }
 
 #start-button {
@@ -147,8 +156,9 @@ body {
     margin-top: 10px;
 }
 
+
 #start-button:hover {
-    background-color: #54bcec; /* pastel blue hover color */
+    background-color: #54bcec;
     color: #fff;
 }
 
