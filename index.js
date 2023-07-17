@@ -56,7 +56,7 @@ function startGame() {
 function category() {
     categoryButton.style.display = '';
     descriptionDisplay.innerHTML = `Hi, ${playerName}! Please choose your category:`;
-    descriptionDisplay.style.boxShadow = "0 0 5px rgba(0, 0, 0, 0.3)";
+    // descriptionDisplay.style.boxShadow = "0 0 5px rgba(0, 0, 0, 0.3)";
     descriptionDisplay.style.fontSize = "large"
     descriptionDisplay.style.marginTop = "170px"
     const easyButton = document.querySelector('#easy-button');
@@ -305,7 +305,7 @@ function endGame() {
     gameTimer.style.display = 'none';
     questionContainer.style.display = 'none';
     nextQuestionButton.style.display = 'none';
-    resultContainer.style.display = 'block';
+    resultContainer.style.display = 'none';
 
     const leaderboardData = JSON.parse(localStorage.getItem('leaderboardData')) || [];
     leaderboardData.push({ name: playerName, score });
