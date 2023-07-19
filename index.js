@@ -320,6 +320,8 @@ function showRank() {
 
         const sortedLeaderboard = leaderboardData.sort((a, b) => b.score - a.score);
 
+        scoreList.classList.add('no-bullets');
+
         scoreList.innerHTML = sortedLeaderboard.map((entry, index) =>
             `<li>${index + 1}. ${entry.name} - ${entry.score} points</li>`
         ).join('');

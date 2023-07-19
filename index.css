@@ -262,13 +262,16 @@ button:hover {
 /* Leaderboard Styles */
 
 .leaderboard {
+    width: 500px;
     display: none;
     margin-top: 50px;
+    margin-left: 200px;
 }
 
 #score-list {
-    width: 100%;
+    margin-left: -380px;
     text-align: center;
+    margin-bottom: 200px;
 }
 
 #score-list th {
@@ -278,6 +281,10 @@ button:hover {
 
 #score-list td {
     padding: 10px;
+}
+
+.no-bullets {
+    list-style: none;
 }
 
 @media (min-width: 600px) {
