@@ -262,16 +262,16 @@ button:hover {
 /* Leaderboard Styles */
 
 .leaderboard {
-    width: 500px;
+    margin-right: 380px;
     display: none;
-    margin-top: 50px;
-    margin-left: 200px;
+    margin-left: 300px;
+    margin-bottom: 200px;
 }
 
 #score-list {
-    margin-left: -380px;
     text-align: center;
-    margin-bottom: 200px;
+    margin-right: 100px;
+    
 }
 
 #score-list th {
@@ -285,6 +285,16 @@ button:hover {
 
 .no-bullets {
     list-style: none;
+}
+
+#exitButton {
+    margin-bottom: 50px;
+    margin-left: 50px;
+}
+
+#tryAgainButton {
+    margin-bottom: 50px;
+    margin-left: 20px;
 }
 
 @media (min-width: 600px) {

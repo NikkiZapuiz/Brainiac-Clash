@@ -16,6 +16,9 @@ const correctAnswerElement = document.querySelector('#correct-answer');
 const rankButton = document.getElementById('rank-button');
 const leaderboard = document.querySelector('.leaderboard');
 const scoreList = document.getElementById('score-list');
+const exitButton = document.getElementById('exitButton');
+const tryAgainButton = document.getElementById('tryAgainButton');
+
 
 questionContainer.style.display = 'none';
 gameTimer.style.display = 'none';
@@ -23,6 +26,8 @@ resultContainer.style.display = 'none';
 categoryButton.style.display = 'none';
 leaderboard.style.display = 'none';
 rankButton.style.display = 'none';
+exitButton.style.display = 'none';
+tryAgainButton.style.display = 'none';
 
 startButton.addEventListener('click', startGame);
 
@@ -317,7 +322,10 @@ function showRank() {
     if (leaderboardData && leaderboardData.length > 0) {
         leaderboard.style.display = 'block';
         rankButton.style.display = 'none';
+        exitButton.style.display = '';
+        tryAgainButton.style.display = '';
 
+        
         const sortedLeaderboard = leaderboardData.sort((a, b) => b.score - a.score);
 
         scoreList.classList.add('no-bullets');
@@ -329,9 +337,14 @@ function showRank() {
         alert('No leaderboard data available.');
     }
     scoreElement.style.display = 'none';
+
 }
 
 rankButton.addEventListener('click', showRank);
+
+exitButton.addEventListener('click', startGame);
+
+tryAgainButton.addEventListener('click', category);
 
 function decodeHtmlEntities(text) {
     const entityElement = document.createElement('textarea');
