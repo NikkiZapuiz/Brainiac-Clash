@@ -1,3 +1,4 @@
+const start = document.querySelector('#start-game')
 const logoText = document.querySelector('#logo-text');
 const playerInput = document.querySelector("#user-name");
 const startButton = document.querySelector("#start-button");
@@ -336,15 +337,37 @@ function showRank() {
     } else {
         alert('No leaderboard data available.');
     }
-    scoreElement.style.display = 'none';
+    
 
 }
 
 rankButton.addEventListener('click', showRank);
 
-exitButton.addEventListener('click', startGame);
 
-tryAgainButton.addEventListener('click', category);
+
+function showCategorySelection() {
+    isGameActive = true;
+    descriptionDisplay.innerHTML = 'Please choose your Category';
+    leaderboard.style.display = 'none';
+    exitButton.style.display = 'none';
+    tryAgainButton.style.display = 'none';
+    categoryButton.style.display = ''; 
+    category();
+}
+
+tryAgainButton.addEventListener('click', showCategorySelection);
+
+function showExitButton() {
+    leaderboard.style.display = 'none';
+    descriptionDisplay.innerHTML = '';
+    exitButton.style.display = 'none';
+    tryAgainButton.style.display = 'none';
+    logoText.style.display = '';
+    playerInput.style.display = ''
+    startButton.style.display = ''
+}
+
+exitButton.addEventListener('click', showExitButton);
 
 function decodeHtmlEntities(text) {
     const entityElement = document.createElement('textarea');
