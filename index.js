@@ -87,7 +87,7 @@ function askQuestion() {
     categoryButton.style.display = 'none';
     descriptionDisplay.innerHTML = '';
 
-    if (questionsAnswered >= 10) {
+    if (questionsAnswered >= 1) {
         endGame();
         return;
     }
@@ -353,9 +353,22 @@ function showCategorySelection() {
     tryAgainButton.style.display = 'none';
     categoryButton.style.display = ''; 
     category();
+
+    playerName = '';
+    currentQuestion = '';
+    choices = [];
+    correctAnswer = '';
+    questionsAnswered = 0;
+    score = 0;
+    doneQuestions = [];
+    clearInterval(timer);
+    rankButton.style.display = 'none';
+    nextQuestionButton.style.display = 'block';
 }
 
 tryAgainButton.addEventListener('click', showCategorySelection);
+
+
 
 function showExitButton() {
     leaderboard.style.display = 'none';
@@ -363,8 +376,22 @@ function showExitButton() {
     exitButton.style.display = 'none';
     tryAgainButton.style.display = 'none';
     logoText.style.display = '';
-    playerInput.style.display = ''
-    startButton.style.display = ''
+    playerInput.style.display = '';
+    startButton.style.display = '';
+    categoryButton.style.display = 'none'; 
+    isGameActive = false; 
+
+    
+    playerName = '';
+    currentQuestion = '';
+    choices = [];
+    correctAnswer = '';
+    questionsAnswered = 0;
+    score = 0;
+    doneQuestions = [];
+    clearInterval(timer);
+    rankButton.style.display = 'none';
+    nextQuestionButton.style.display = 'block';
 }
 
 exitButton.addEventListener('click', showExitButton);
