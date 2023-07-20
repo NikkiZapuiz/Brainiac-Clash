@@ -62,7 +62,6 @@ function startGame() {
 function category() {
     categoryButton.style.display = '';
     descriptionDisplay.innerHTML = `Hi, ${playerName}! Please choose your category:`;
-    // descriptionDisplay.style.boxShadow = "0 0 5px rgba(0, 0, 0, 0.3)";
     descriptionDisplay.style.fontSize = "large"
     descriptionDisplay.style.marginTop = "170px"
 }
@@ -328,20 +327,24 @@ function showRank() {
         exitButton.style.display = '';
         tryAgainButton.style.display = '';
 
-        
         const sortedLeaderboard = leaderboardData.sort((a, b) => b.score - a.score);
+        const scoreListElement = document.getElementById('score-list');
+        scoreListElement.innerHTML = '';
 
-        scoreList.classList.add('no-bullets');
+        const topEntries = sortedLeaderboard.slice(0, 10);
 
-        scoreList.innerHTML = sortedLeaderboard.map((entry, index) =>
-            `<li>${index + 1}. ${entry.name} - ${entry.score} points</li>`
-        ).join('');
+        for (let i = 0; i < topEntries.length; i++) {
+            const entry = topEntries[i];
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${i + 1}</td><td>${entry.name}</td><td>${entry.score} points</td>`;
+            scoreListElement.appendChild(row);
+        }
     } else {
         alert('No leaderboard data available.');
     }
-    
-
 }
+
+
 
 rankButton.addEventListener('click', showRank);
 
