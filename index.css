@@ -1,30 +1,4 @@
-html,
-body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: Arial, sans-serif;
-    
-}
-
-.logo-container{
-    width: 80%;
-    max-width: 400px;
-    height: 200px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    position: relative;
-}
-
-#logo-text {
+/* #logo-text {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -36,7 +10,7 @@ body {
     font-weight: bold;
     color: #333;
     text-align: center;
-}
+} */
 
 #logo-text span {
     display: inline-block;
@@ -46,6 +20,8 @@ body {
     animation-timing-function: ease-in-out;
     animation-fill-mode: forwards;
     animation-iteration-count: infinite;
+    text-shadow: 0 0 10px #000000, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+    font-family: cursive;
 }
 
 @keyframes zoomDrop {
@@ -66,53 +42,45 @@ body {
 }
 
 
-.border {
-    background-image: url(border.png);
-    background-size: 800px;
-    background-repeat: no-repeat;
-    width: 800px;
-}
-    
-
 #logo-text span:nth-child(1) {
     animation-delay: 0.1s;
-    color: #0f5170;
+    color: #f7d632;
     font-size: 50px;
 }
 
 #logo-text span:nth-child(2) {
     animation-delay: 0.2s;
-    color: #0f5170;
+    color: #f7d632;
 }
 
 #logo-text span:nth-child(3) {
     animation-delay: 0.3s;
-    color: #0f5170;
+    color: #f7d632;
 }
 
 #logo-text span:nth-child(4) {
     animation-delay: 0.4s;
-    color: #0f5170;
+    color: #f7d632;
 }
 
 #logo-text span:nth-child(5) {
     animation-delay: 0.5s;
-    color: #0f5170;
+    color: #f7d632;
 }
 
 #logo-text span:nth-child(6) {
     animation-delay: 0.6s;
-    color: #0f5170;
+    color: #f7d632;
 }
 
 #logo-text span:nth-child(7) {
     animation-delay: 0.7s;
-    color: #0f5170;
+    color: #f7d632;
 }
 
 #logo-text span:nth-child(8) {
     animation-delay: 0.8s;
-    color: #0f5170;
+    color: #f7d632;
 }
 
 #logo-text span:nth-child(10) {
@@ -141,159 +109,76 @@ body {
     color: #f7d632;
 }
 
-#start-button {
-    background-color: #f2f2f2;
-    color: #333;
-    border-radius: 50px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-    width: 120px;
-    height: 30px;
-    border: none;
+#logo-text {
+    margin: 80px 0px 0px 0px;
+    font-size: xx-large;
 }
 
-#description {
-    text-align: center;
-}
+.logo-container {
+    height: 450px;
 
-.categoryBtn-container {
-    display: flex;
-    flex-direction: column;
-    height: 150px;
-    align-items: center;
-    margin-bottom: 300px;
-}
-
-#easy-button,
-#medium-button,
-#hard-button {
-    border: none;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    font-size: 15px;
-    margin: 5px;
-    width: 300px;
-    height: 50px;
-}
-
-#start-button:hover,
-#easy-button:hover,
-#medium-button:hover,
-#hard-button:hover {
-    background-color: #54bcec;
-    color: #fff;
-}
-
-#user-name {
-    border-radius: 5%;
-    border: none;
-    color: #333;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    width: 250px;
-    height: 25px;
-}
-
-#game-timer {
-    border-radius: 50%;
-    border: none;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    padding: 10px;
-}
-
-.question-container {
-    margin-bottom: 50px;
-    max-width: 400px;
+    background-image: url('back.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 2%;
 }
 
 #question {
-    font-size: 20px;
-    margin-bottom: 50px;
-    max-width: 600px;
-    text-align: center;
+    font-size: large;
+    color: #fff;
+    font-family: cursive;
 }
 
-#choices {
-    list-style-type: none;
-    padding: 0;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 350px;
-}
-
-#choices li {
-    margin: 10px 0;
-}
-
-.result-container {
-    display: none;
-    display: flex;
-    align-items: center;
-}
-
-#result {
-    font-weight: bold;
-    text-align: center;
-}
 
 #choices button {
     border-radius: 2%;
     border: none;
     cursor: pointer;
     width: 400px;
-    height: 50px;
+    height: 40px;
+    margin: 2px;
 }
 
 button:hover {
-    background-color: #54bcec;
+    background-color: #f7d632;
     color: #fff;
 }
 
-#next-question {
-    border-radius: 5%;
-    border: none;
+.text {
+    color: #fff;
+    font-family: cursive;
+    font-weight: 600;
+    text-shadow: 1 5 50px #000000, 0 0 2px #fff, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073;
+}
+
+#description {
+    font-family: cursive;
+    font-weight: 500;
+    text-shadow: 1 5 50px #000000, 0 0 5px #fff, 0 0 20px #e60073, 0 0 30px #e60073, 0 0 40px #e60073;
+}
+
+#game-timer {
+    color: #fff;
+    font-weight: 500;
+    font-size: x-large;
+}
+
+.btn {
     cursor: pointer;
-    width: 200px;
-    height: 50px;
-    margin-top: 20px;
-    margin-bottom: 500px;
 }
 
-.next {
-    text-align: center;
-}
-
-#next-question:hover {
-    background-color: #54bcec;
+.btn-secondary {
     color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 18px;
 }
 
-/* Leaderboard Styles */
-
-.leaderboard {
-    display: none;
-    margin-top: 50px;
+#volume {
+    margin-top: 1vw;
 }
-
-#score-list {
-    width: 100%;
-    text-align: center;
-}
-
-#score-list th {
-    background-color: #f2f2f2;
-    padding: 10px;
-}
-
-#score-list td {
-    padding: 10px;
-}
-
-@media (min-width: 600px) {
-    #logo-text {
-        font-size: 40px;
-    }
-
-    #start-button {
-        font-size: 16px;
-    }
-}
+/* 
+.fa-music {
+    margin-right: 8px; 
+} */

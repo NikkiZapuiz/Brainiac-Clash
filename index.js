@@ -14,7 +14,6 @@ const questionElement = document.querySelector('#question');
 const choicesElement = document.querySelector('#choices');
 const resultContainer = document.querySelector('.result-container');
 const correctAnswerElement = document.querySelector('#correct-answer');
-const rankButton = document.getElementById('rank-button');
 const leaderboard = document.querySelector('.leaderboard');
 const scoreList = document.getElementById('score-list');
 const exitButton = document.getElementById('exitButton');
@@ -25,8 +24,6 @@ questionContainer.style.display = 'none';
 gameTimer.style.display = 'none';
 resultContainer.style.display = 'none';
 categoryButton.style.display = 'none';
-leaderboard.style.display = 'none';
-rankButton.style.display = 'none';
 exitButton.style.display = 'none';
 tryAgainButton.style.display = 'none';
 
@@ -67,21 +64,21 @@ function category() {
 }
 
 
-    const easyButton = document.querySelector('#easy-button');
-    const mediumButton = document.querySelector('#medium-button');
-    const hardButton = document.querySelector('#hard-button');
-    easyButton.addEventListener('click', function () {
-        currentCategory = 'easy';
-        askQuestion();
-    });
-    mediumButton.addEventListener('click', function () {
-        currentCategory = 'medium';
-        mediumQuestion();
-    });
-    hardButton.addEventListener('click', function () {
-        currentCategory = 'hard';
-        hardQuestion();
-    });
+const easyButton = document.querySelector('#easy-button');
+const mediumButton = document.querySelector('#medium-button');
+const hardButton = document.querySelector('#hard-button');
+easyButton.addEventListener('click', function () {
+    currentCategory = 'easy';
+    askQuestion();
+});
+mediumButton.addEventListener('click', function () {
+    currentCategory = 'medium';
+    mediumQuestion();
+});
+hardButton.addEventListener('click', function () {
+    currentCategory = 'hard';
+    hardQuestion();
+});
 
 // EASY
 function askQuestion() {
@@ -259,6 +256,10 @@ function selectChoice() {
 function startTimer() {
     let timeRemaining = gameTime;
 
+    if (!timerAudio?.paused) {
+        stopTimerSound();
+    }
+
     gameTimer.style.display = 'block';
     gameTimer.textContent = timeRemaining;
 
@@ -268,20 +269,27 @@ function startTimer() {
 
         if (timeRemaining <= 0) {
             clearInterval(timer);
+            stopTimerSound(); 
             checkAnswer('');
         }
     }, 1000);
+
+    playTimerSound();
 }
+
 
 function checkAnswer(userAnswer) {
     clearInterval(timer);
+    stopTimerSound(); 
     if (userAnswer === correctAnswer) {
         resultElement.textContent = "Correct!";
         correctAnswerElement.textContent = `The correct answer is ${correctAnswer}.`;
         score += 100;
+        playCorrectSound();
     } else {
         resultElement.textContent = "Incorrect!";
         correctAnswerElement.textContent = `The correct answer is ${correctAnswer}.`;
+        playWrongSound();
     }
     showResultContainer();
 }
@@ -299,21 +307,22 @@ function showResultContainer() {
 }
 
 function endGame() {
+    
     isGameActive = false;
     correctAnswerElement.textContent = '';
-
     const scoreElement = document.createElement('div');
     scoreElement.id = 'score';
     scoreElement.classList.add('score-container');
     scoreElement.innerHTML = `Congratulations, ${playerName}! Score: ${score} points`;
     descriptionDisplay.appendChild(scoreElement);
 
-    rankButton.style.display = 'block';
     gameTimer.style.display = 'none';
     questionContainer.style.display = 'none';
     nextQuestionButton.style.display = 'none';
     resultContainer.style.display = 'none';
-
+    exitButton.style.display = 'block';
+    tryAgainButton.style.display = 'block';
+    
     const leaderboardData = JSON.parse(localStorage.getItem('leaderboardData')) || [];
     leaderboardData.push({ name: playerName, score });
     localStorage.setItem('leaderboardData', JSON.stringify(leaderboardData));
@@ -322,17 +331,10 @@ function endGame() {
 function showRank() {
     const leaderboardData = JSON.parse(localStorage.getItem('leaderboardData'));
     if (leaderboardData && leaderboardData.length > 0) {
-        leaderboard.style.display = 'block';
-        rankButton.style.display = 'none';
-        exitButton.style.display = '';
-        tryAgainButton.style.display = '';
-
         const sortedLeaderboard = leaderboardData.sort((a, b) => b.score - a.score);
         const scoreListElement = document.getElementById('score-list');
         scoreListElement.innerHTML = '';
-
         const topEntries = sortedLeaderboard.slice(0, 10);
-
         for (let i = 0; i < topEntries.length; i++) {
             const entry = topEntries[i];
             const row = document.createElement('tr');
@@ -344,21 +346,18 @@ function showRank() {
     }
 }
 
+showRank();
 
-
-rankButton.addEventListener('click', showRank);
 
 
 
 function showCategorySelection() {
     isGameActive = true;
     descriptionDisplay.innerHTML = 'Please choose your Category';
-    leaderboard.style.display = 'none';
     exitButton.style.display = 'none';
     tryAgainButton.style.display = 'none';
-    categoryButton.style.display = ''; 
+    categoryButton.style.display = '';
     category();
-
     playerName = '';
     currentQuestion = '';
     choices = [];
@@ -367,7 +366,6 @@ function showCategorySelection() {
     score = 0;
     doneQuestions = [];
     clearInterval(timer);
-    rankButton.style.display = 'none';
     nextQuestionButton.style.display = 'block';
 }
 
@@ -376,17 +374,16 @@ tryAgainButton.addEventListener('click', showCategorySelection);
 
 
 function showExitButton() {
-    leaderboard.style.display = 'none';
     descriptionDisplay.innerHTML = '';
     exitButton.style.display = 'none';
     tryAgainButton.style.display = 'none';
     logoText.style.display = '';
     playerInput.style.display = '';
     startButton.style.display = '';
-    categoryButton.style.display = 'none'; 
-    isGameActive = false; 
+    categoryButton.style.display = 'none';
+    isGameActive = false;
 
-    
+
     playerName = '';
     currentQuestion = '';
     choices = [];
@@ -395,7 +392,6 @@ function showExitButton() {
     score = 0;
     doneQuestions = [];
     clearInterval(timer);
-    rankButton.style.display = 'none';
     nextQuestionButton.style.display = 'block';
 }
 
@@ -423,5 +419,83 @@ function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+const toggleMusicButton = document.querySelector('#toggle-music');
+const musicIcon = document.querySelector('#music-icon');
+
+
+let isMusicPlaying = false;
+let audio;
+let volume = 0.4;
+let wrongAudio;
+let correctAudio;
+let timerAudio;
+
+const volumeSlider = document.getElementById('volume-slider')
+volumeSlider.style.display = 'none';
+function playMusic() {
+    audio = new Audio('./come-on-boy-8018.mp3');
+    audio.volume = volume;
+    audio.play();
+    isMusicPlaying = true;
+    volumeSlider.style.display = '';
+}
+
+function stopMusic() {
+    if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+    }
+    isMusicPlaying = false;
+    volumeSlider.style.display = 'none';
+}
+
+function toggleMusic() {
+    if (isMusicPlaying) {
+        stopMusic();
+    } else {
+        playMusic();
+    }
+}
+
+function adjustVolume() {
+    volume = parseFloat(document.getElementById('volume-slider').value);
+    if (audio) {
+        audio.volume = volume;
+    }
+}
+
+function playSoundEffect(audioElement) {
+    audioElement.currentTime = 0;
+    audioElement.play();
+}
+
+function playWrongSound() {
+    if (!wrongAudio) {
+        wrongAudio = document.getElementById('wrong-audio');
+    }
+    playSoundEffect(wrongAudio);
+}
+
+function playCorrectSound() {
+    if (!correctAudio) {
+        correctAudio = document.getElementById('correct-audio');
+    }
+    playSoundEffect(correctAudio);
+}
+
+function playTimerSound() {
+    if (!timerAudio) {
+        timerAudio = document.getElementById('timer-audio');
+    }
+    playSoundEffect(timerAudio);
+}
+
+function stopTimerSound() {
+    if (timerAudio) {
+        timerAudio.pause();
+        timerAudio.currentTime = 0;
     }
 }

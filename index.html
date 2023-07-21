@@ -6,82 +6,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brainiac Clash</title>
     <link rel="stylesheet" href="index.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 
-<body style="background-color: azure;">
-
-    <div class="logo-container">
-        <div id="description" class="mb-5"></div>
-        <div id="logo-text">
-            <span>B</span>
-            <span>r</span>
-            <span>a</span>
-            <span>i</span>
-            <span>n</span>
-            <span>i</span>
-            <span>a</span>
-            <span>c</span>
-            <span> </span>
-            &nbsp;
-            <span>C</span>
-            <span>l</span>
-            <span>a</span>
-            <span>s</span>
-            <span>h</span>
+<body style="background-color: rgb(246, 240, 252);">
+    <!-- <h3 class="mt-5" style="font-family: cursive; font-size: xx-large; font-weight: 600;">Brainiac Clash</h3> -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 logo-container text-center">
+                <div id="volume" class="position-absolute">
+                    <button id="toggle-music" class="btn btn-secondary" onclick="toggleMusic()">    
+                        <i class="fa-solid fa-music"></i>
+                    </button>
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="1"
+                        onchange="adjustVolume()" />
+                    <audio id="wrong-audio" src="./error-2-126514.mp3"></audio>
+                    <audio id="correct-audio" src="./correct-156911.mp3"></audio>
+                    <audio id="timer-audio" src="./tickingbuzzer-75859.mp3"></audio>
+                </div>
+                <div id="logo-text" class="position-relative">
+                    <span>B</span>
+                    <span>r</span>
+                    <span>a</span>
+                    <span>i</span>
+                    <span>n</span>
+                    <span>i</span>
+                    <span>a</span>
+                    <span>c</span>
+                    <span> </span>
+                    &nbsp;
+                    <span>C</span>
+                    <span>l</span>
+                    <span>a</span>
+                    <span>s</span>
+                    <span>h</span>
+                </div>
+                <br />
+                <br />
+                <br />
+                <div class="d-flex justify-content-center">
+                    <input type="text" placeholder="Your Name" id="user-name" required class="form-control w-25" />
+                </div>
+                <br />
+                <div class="text-center">
+                    <button id="start-button" class="btn btn-warning">Start</button>
+                </div>
+                <div class="categoryBtn-container">
+                    <div id="description" class="mb-5 text-white"></div>
+                    <button id="easy-button" class="btn btn-warning">Easy</button>
+                    <button id="medium-button" class="btn btn-warning">Medium</button>
+                    <button id="hard-button" class="btn btn-warning">Hard</button>
+                </div>
+                <br />
+                <div class="question-container mb-5">
+                    <div id="game-timer"></div>
+                    <br />
+                    <h2 id="question" class="text"></h2>
+                    <br />
+                    <ul id="choices"></ul>
+                </div>
+                <div class="result-container">
+                    <p id="result" class="text"></p>
+                    <p id="correct-answer" class="text"></p>
+                    <button id="next-question" class="btn btn-warning">Next Question</button>
+                </div>
+                <div class="buttons d-flex justify-content-center mb-5">
+                    <button id="exitButton" class="btn btn-warning">Exit</button>
+                    <button id="tryAgainButton" class="btn btn-warning">Try Again</button>
+                </div>
+            </div>
+            <div class="col-md-4 leaderboard">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Leaderboard</th>
+                        </tr>
+                    </thead>
+                    <tbody id="score-list"></tbody>
+                </table>
+            </div>
         </div>
     </div>
-
-    <br />
-    <input type="text" placeholder="Your Name" id="user-name" required />
-
-    <br />
-    <br />
-    <button id="start-button">Start</button>
-    <div class="categoryBtn-container">
-        <button id="easy-button">Easy</button>
-        <button id="medium-button">Medium</button>
-        <button id="hard-button">Hard</button>
-    </div>
-    <br />
-    <div id="game-timer"></div>
-
-    <div class="question-container">
-        <h2 id="question"></h2>
-        <ul id="choices"></ul>
-    </div>
-
-    <div class="result-container">
-        <p id="result"></p>
-        <p id="correct-answer"></p>
-        <div class="next">
-            <button id="next-question">Next Question</button>
-        </div>
-    </div>
-
-
-    <div class="rank-container">
-        <button id="rank-button">Rank</button>
-    </div>
-
-    <div class="leaderboard">
-        <table class="table table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Leaderboard</th>
-                </tr>
-            </thead>
-            <tbody id="score-list">
-
-            </tbody>
-        </table>
-    </div>
-
-    <button id="exitButton">Exit</button>
-    <button id="tryAgainButton">Try Again</button>
-
     <script src="./index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
