@@ -18,6 +18,7 @@ const leaderboard = document.querySelector('.leaderboard');
 const scoreList = document.getElementById('score-list');
 const exitButton = document.getElementById('exitButton');
 const tryAgainButton = document.getElementById('tryAgainButton');
+const scoreDisplay = document.getElementById('score-display');
 
 
 questionContainer.style.display = 'none';
@@ -38,7 +39,7 @@ let questionsAnswered = 0;
 let score = 0;
 let doneQuestions = [];
 let timer;
-const gameTime = 10;
+const gameTime = 15;
 let currentCategory;
 
 function startGame() {
@@ -85,7 +86,7 @@ function askQuestion() {
     categoryButton.style.display = 'none';
     descriptionDisplay.innerHTML = '';
 
-    if (questionsAnswered >= 1) {
+    if (questionsAnswered >= 10) {
         endGame();
         return;
     }
@@ -291,6 +292,7 @@ function checkAnswer(userAnswer) {
         correctAnswerElement.textContent = `The correct answer is ${correctAnswer}.`;
         playWrongSound();
     }
+    updateScoreDisplay();
     showResultContainer();
 }
 
@@ -304,6 +306,11 @@ function showResultContainer() {
     resultContainer.style.display = 'block';
     gameTimer.style.display = 'none';
     nextQuestionButton.disabled = false;
+}
+
+function updateScoreDisplay() {
+    // Update the text content of the score display element
+    scoreDisplay.textContent = `Score: ${score}`;
 }
 
 function endGame() {
