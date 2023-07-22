@@ -111,7 +111,7 @@
 
 #logo-text {
     margin: 80px 0px 0px 0px;
-    font-size: xx-large;
+    font-size: x-large;
 }
 
 .logo-container {
@@ -121,6 +121,7 @@
     background-size: cover;
     background-position: center;
     border-radius: 2%;
+    height: 75vh;
 }
 
 #question {
@@ -134,7 +135,7 @@
     border-radius: 2%;
     border: none;
     cursor: pointer;
-    width: 400px;
+    width: 350px;
     height: 40px;
     margin: 2px;
 }

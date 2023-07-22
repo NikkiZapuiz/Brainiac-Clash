@@ -58,6 +58,7 @@ function startGame() {
 }
 
 function category() {
+    resetScore();
     categoryButton.style.display = '';
     descriptionDisplay.innerHTML = `Hi, ${playerName}! Please choose your category:`;
     descriptionDisplay.style.fontSize = "large"
@@ -86,7 +87,7 @@ function askQuestion() {
     categoryButton.style.display = 'none';
     descriptionDisplay.innerHTML = '';
 
-    if (questionsAnswered >= 10) {
+    if (questionsAnswered >= 1) {
         endGame();
         return;
     }
@@ -294,6 +295,7 @@ function checkAnswer(userAnswer) {
     }
     updateScoreDisplay();
     showResultContainer();
+    showRank();
 }
 
 function showQuestionContainer() {
@@ -312,6 +314,11 @@ function updateScoreDisplay() {
     scoreDisplay.textContent = `Score: ${score}`;
 }
 
+function resetScore() {
+    score = 0;
+    updateScoreDisplay();
+}
+
 function endGame() {
     
     isGameActive = false;
@@ -319,8 +326,8 @@ function endGame() {
     const scoreElement = document.createElement('div');
     scoreElement.id = 'score';
     scoreElement.classList.add('score-container');
-    scoreElement.innerHTML = `Congratulations, ${playerName}! Score: ${score} points`;
-    descriptionDisplay.appendChild(scoreElement);
+    // scoreElement.innerHTML = `Congratulations, ${playerName}! Score: ${score} points`;
+    // descriptionDisplay.appendChild(scoreElement);
 
     gameTimer.style.display = 'none';
     questionContainer.style.display = 'none';
@@ -369,7 +376,6 @@ function showCategorySelection() {
     choices = [];
     correctAnswer = '';
     questionsAnswered = 0;
-    score = 0;
     doneQuestions = [];
     clearInterval(timer);
     nextQuestionButton.style.display = '';
@@ -395,7 +401,6 @@ function showExitButton() {
     choices = [];
     correctAnswer = '';
     questionsAnswered = 0;
-    score = 0;
     doneQuestions = [];
     clearInterval(timer);
     nextQuestionButton.style.display = '';
