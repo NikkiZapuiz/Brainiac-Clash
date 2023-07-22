@@ -1,4 +1,4 @@
-const start = document.querySelector('#start-game')
+const start = document.querySelector('#start-game');
 const logoText = document.querySelector('#logo-text');
 const playerInput = document.querySelector("#user-name");
 const startButton = document.querySelector("#start-button");
@@ -15,11 +15,11 @@ const choicesElement = document.querySelector('#choices');
 const resultContainer = document.querySelector('.result-container');
 const correctAnswerElement = document.querySelector('#correct-answer');
 const leaderboard = document.querySelector('.leaderboard');
-const scoreList = document.getElementById('score-list');
 const exitButton = document.getElementById('exitButton');
 const tryAgainButton = document.getElementById('tryAgainButton');
 const scoreDisplay = document.getElementById('score-display');
-
+const Message = document.getElementById('Congrats');
+const scoreListElement = document.getElementById('score-list');
 
 questionContainer.style.display = 'none';
 gameTimer.style.display = 'none';
@@ -41,6 +41,7 @@ let doneQuestions = [];
 let timer;
 const gameTime = 15;
 let currentCategory;
+let startTime;
 
 function startGame() {
     playerName = playerInput.value;
@@ -55,16 +56,17 @@ function startGame() {
 
     isGameActive = true;
     category();
+    startTime = Date.now();
 }
 
 function category() {
     resetScore();
+    Message.style.display = 'none';
     categoryButton.style.display = '';
     descriptionDisplay.innerHTML = `Hi, ${playerName}! Please choose your category:`;
-    descriptionDisplay.style.fontSize = "large"
-    descriptionDisplay.style.marginTop = "170px"
+    descriptionDisplay.style.fontSize = "large";
+    descriptionDisplay.style.marginTop = "170px";
 }
-
 
 const easyButton = document.querySelector('#easy-button');
 const mediumButton = document.querySelector('#medium-button');
@@ -279,14 +281,20 @@ function startTimer() {
     playTimerSound();
 }
 
-
 function checkAnswer(userAnswer) {
     clearInterval(timer);
     stopTimerSound(); 
+
+    const timeElapsed = gameTime - parseInt(gameTimer.textContent);
+
     if (userAnswer === correctAnswer) {
         resultElement.textContent = "Correct!";
         correctAnswerElement.textContent = `The correct answer is ${correctAnswer}.`;
-        score += 100;
+        if (timeElapsed <= 3) {
+            score += 150; 
+        } else {
+            score += 100;
+        }
         playCorrectSound();
     } else {
         resultElement.textContent = "Incorrect!";
@@ -295,7 +303,8 @@ function checkAnswer(userAnswer) {
     }
     updateScoreDisplay();
     showResultContainer();
-    showRank();
+    updateLeaderboard();
+    addToLeaderboard();
 }
 
 function showQuestionContainer() {
@@ -319,49 +328,76 @@ function resetScore() {
     updateScoreDisplay();
 }
 
-function endGame() {
-    
-    isGameActive = false;
-    correctAnswerElement.textContent = '';
-    const scoreElement = document.createElement('div');
-    scoreElement.id = 'score';
-    scoreElement.classList.add('score-container');
-    // scoreElement.innerHTML = `Congratulations, ${playerName}! Score: ${score} points`;
-    // descriptionDisplay.appendChild(scoreElement);
 
-    gameTimer.style.display = 'none';
-    questionContainer.style.display = 'none';
-    nextQuestionButton.style.display = 'none';
-    resultContainer.style.display = 'none';
-    exitButton.style.display = 'block';
-    tryAgainButton.style.display = 'block';
-    
+function updateColors() {
+    const rows = scoreListElement.querySelectorAll('tr');
+
+    for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+
+        row.classList.remove('current-player');
+        if (i === 0) {
+            row.classList.add('top-player');
+        }
+        if (row.cells[1].textContent === playerName) {
+            row.classList.add('current-player');
+        }
+    }
+}
+
+function addToLeaderboard() {
     const leaderboardData = JSON.parse(localStorage.getItem('leaderboardData')) || [];
     leaderboardData.push({ name: playerName, score });
     localStorage.setItem('leaderboardData', JSON.stringify(leaderboardData));
 }
 
-function showRank() {
+function endGame() {
+    isGameActive = false;
+    correctAnswerElement.textContent = '';
+    const scoreElement = document.createElement('div');
+    scoreElement.id = 'score';
+    scoreElement.classList.add('score-container');
+    gameTimer.style.display = 'none';
+    questionContainer.style.display = 'none';
+    nextQuestionButton.style.display = 'none';
+    resultContainer.style.display = 'none';
+    exitButton.style.display = '';
+    tryAgainButton.style.display = '';
+    Message.style.display = '';
+    Message.innerHTML = `Congratulations, ${playerName}! Score: ${score} points`;
+    updateColors();
+
+}
+
+let previousTopPlayer = '';
+
+function updateLeaderboard() {
     const leaderboardData = JSON.parse(localStorage.getItem('leaderboardData'));
     if (leaderboardData && leaderboardData.length > 0) {
         const sortedLeaderboard = leaderboardData.sort((a, b) => b.score - a.score);
-        const scoreListElement = document.getElementById('score-list');
         scoreListElement.innerHTML = '';
         const topEntries = sortedLeaderboard.slice(0, 10);
         for (let i = 0; i < topEntries.length; i++) {
             const entry = topEntries[i];
             const row = document.createElement('tr');
             row.innerHTML = `<td>${i + 1}</td><td>${entry.name}</td><td>${entry.score} points</td>`;
+
+            if (i === 0) {
+                row.classList.add('top-player');
+            }
+            if (entry.name === playerName) {
+                row.classList.add('current-player');
+            }
             scoreListElement.appendChild(row);
         }
+
+        updateColors();
     } else {
         alert('No leaderboard data available.');
     }
 }
 
-showRank();
-
-
+updateLeaderboard();
 
 
 function showCategorySelection() {
@@ -371,7 +407,6 @@ function showCategorySelection() {
     tryAgainButton.style.display = 'none';
     categoryButton.style.display = '';
     category();
-    playerName = '';
     currentQuestion = '';
     choices = [];
     correctAnswer = '';
@@ -383,8 +418,6 @@ function showCategorySelection() {
 
 tryAgainButton.addEventListener('click', showCategorySelection);
 
-
-
 function showExitButton() {
     descriptionDisplay.innerHTML = '';
     exitButton.style.display = 'none';
@@ -394,8 +427,7 @@ function showExitButton() {
     startButton.style.display = '';
     categoryButton.style.display = 'none';
     isGameActive = false;
-
-
+    Message.innerHTML = 'Click Start to Play';
     playerName = '';
     currentQuestion = '';
     choices = [];
@@ -425,7 +457,6 @@ nextQuestionButton.addEventListener('click', function () {
     }
 });
 
-
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -435,8 +466,6 @@ function shuffleArray(array) {
 
 const toggleMusicButton = document.querySelector('#toggle-music');
 const musicIcon = document.querySelector('#music-icon');
-
-
 let isMusicPlaying = false;
 let audio;
 let volume = 0.4;
@@ -444,8 +473,9 @@ let wrongAudio;
 let correctAudio;
 let timerAudio;
 
-const volumeSlider = document.getElementById('volume-slider')
+const volumeSlider = document.getElementById('volume-slider');
 volumeSlider.style.display = 'none';
+
 function playMusic() {
     audio = new Audio('./come-on-boy-8018.mp3');
     audio.volume = volume;
@@ -510,3 +540,5 @@ function stopTimerSound() {
         timerAudio.currentTime = 0;
     }
 }
+
+

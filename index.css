@@ -199,3 +199,23 @@ button:hover {
 .result-container {
     text-align: center;
 }
+
+
+.top-player {
+    background-color: #F4C753;
+    font-weight: bold;
+}
+
+.current-player {
+    background-color: #C7B3D2;
+    font-weight: bold;
+}
+
+#Congrats {
+    color: #fff;
+    font-family: cursive;
+    font-weight: 600;
+    text-shadow: 1 5 50px #000000, 0 0 2px #fff, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073;
+}
+
+
