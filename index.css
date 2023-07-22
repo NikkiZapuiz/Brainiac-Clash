@@ -187,15 +187,14 @@ button:hover {
     font-size: 18px; 
     font-weight: bold;
     color: white;
-    border: 2px solid gray;
     padding: 3px 6px; 
     background-color: rgb(113, 112, 112); 
     position: absolute;
     top: -105px;
     right: 10px;
+    border-radius: 5%;
 }
 
-/* 
-.fa-music {
-    margin-right: 8px; 
-} */
+.result-container {
+    text-align: center;
+}
