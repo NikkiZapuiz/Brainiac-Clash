@@ -309,7 +309,6 @@ function showResultContainer() {
 }
 
 function updateScoreDisplay() {
-    // Update the text content of the score display element
     scoreDisplay.textContent = `Score: ${score}`;
 }
 
@@ -373,7 +372,7 @@ function showCategorySelection() {
     score = 0;
     doneQuestions = [];
     clearInterval(timer);
-    nextQuestionButton.style.display = 'block';
+    nextQuestionButton.style.display = '';
 }
 
 tryAgainButton.addEventListener('click', showCategorySelection);
@@ -399,7 +398,7 @@ function showExitButton() {
     score = 0;
     doneQuestions = [];
     clearInterval(timer);
-    nextQuestionButton.style.display = 'block';
+    nextQuestionButton.style.display = '';
 }
 
 exitButton.addEventListener('click', showExitButton);
