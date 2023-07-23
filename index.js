@@ -27,6 +27,7 @@ resultContainer.style.display = 'none';
 categoryButton.style.display = 'none';
 exitButton.style.display = 'none';
 tryAgainButton.style.display = 'none';
+Message.style.display = 'none';
 
 startButton.addEventListener('click', startGame);
 
@@ -61,7 +62,6 @@ function startGame() {
 
 function category() {
     resetScore();
-    Message.style.display = 'none';
     categoryButton.style.display = '';
     descriptionDisplay.innerHTML = `Hi, ${playerName}! Please choose your category:`;
     descriptionDisplay.style.fontSize = "large";
@@ -439,6 +439,7 @@ function showCategorySelection() {
     doneQuestions = [];
     clearInterval(timer);
     nextQuestionButton.style.display = '';
+    Message.style.display = 'none';
 }
 
 tryAgainButton.addEventListener('click', showCategorySelection);
@@ -452,7 +453,6 @@ function showExitButton() {
     startButton.style.display = '';
     categoryButton.style.display = 'none';
     isGameActive = false;
-    Message.innerHTML = 'Click Start to Play';
     playerName = '';
     currentQuestion = '';
     choices = [];
@@ -461,6 +461,7 @@ function showExitButton() {
     doneQuestions = [];
     clearInterval(timer);
     nextQuestionButton.style.display = '';
+    Message.style.display = 'none';
 }
 
 exitButton.addEventListener('click', showExitButton);

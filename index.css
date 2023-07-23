@@ -108,7 +108,7 @@
     background-size: cover;
     background-position: center;
     border-radius: 2%;
-    height: 85vh;
+    height: 80vh;
 }
 
 #question {
@@ -221,7 +221,7 @@ button:hover {
 }
 
 .form-control {
-    margin-top: 10vh;
+    margin-top: 15vh;
 }
 
 
