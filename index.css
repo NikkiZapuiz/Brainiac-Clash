@@ -108,7 +108,7 @@
     background-size: cover;
     background-position: center;
     border-radius: 2%;
-    height: 75vh;
+    height: 85vh;
 }
 
 #question {
@@ -166,10 +166,10 @@ button:hover {
 #volume {
     margin-top: 1vw;
 }
-
+/* 
 .question-container {
     position: relative;
-}
+} */
 
 .score-display {
     font-size: 18px; 

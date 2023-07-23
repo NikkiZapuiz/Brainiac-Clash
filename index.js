@@ -88,7 +88,7 @@ function askQuestion() {
     categoryButton.style.display = 'none';
     descriptionDisplay.innerHTML = '';
 
-    if (questionsAnswered >= 1) {
+    if (questionsAnswered >= 10) {
         endGame();
         return;
     }
