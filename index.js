@@ -65,7 +65,6 @@ function category() {
     categoryButton.style.display = '';
     descriptionDisplay.innerHTML = `Hi, ${playerName}! Please choose your category:`;
     descriptionDisplay.style.fontSize = "large";
-    descriptionDisplay.style.marginTop = "170px";
 }
 
 const easyButton = document.querySelector('#easy-button');
