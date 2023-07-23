@@ -219,4 +219,14 @@ button:hover {
     text-shadow: 1 5 50px #000000, 0 0 2px #fff, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073;
 }
 
+.buttons {
+    height: 50vh;
+}
+
+#exitButton {
+    margin: 2vh 2vh 2vh 0vh;
+
+}
+
+
 
