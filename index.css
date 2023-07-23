@@ -224,6 +224,12 @@ button:hover {
     margin-top: 15vh;
 }
 
+#points-earned {
+    color: #fff;
+    font-family: cursive;
+    font-weight: 600;
+    text-shadow: 1 5 50px #000000, 0 0 2px #fff, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073;
+}
 
 
 
