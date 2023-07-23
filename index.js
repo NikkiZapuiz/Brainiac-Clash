@@ -335,7 +335,9 @@ function updateColors() {
     for (let i = 0; i < rows.length; i++) {
         const row = rows[i];
 
+        row.classList.remove('top-player');
         row.classList.remove('current-player');
+
         if (i === 0) {
             row.classList.add('top-player');
         }
@@ -345,11 +347,26 @@ function updateColors() {
     }
 }
 
+
 function addToLeaderboard() {
     const leaderboardData = JSON.parse(localStorage.getItem('leaderboardData')) || [];
-    leaderboardData.push({ name: playerName, score });
-    localStorage.setItem('leaderboardData', JSON.stringify(leaderboardData));
+    const playerIndex = leaderboardData.findIndex(entry => entry.name === playerName);
+
+    if (playerIndex !== -1) {
+        leaderboardData[playerIndex].score = score;
+    } else {
+        leaderboardData.push({ name: playerName, score });
+    }
+
+    leaderboardData.sort((a, b) => b.score - a.score);
+
+    const topEntries = leaderboardData.slice(0, 10);
+
+    localStorage.setItem('leaderboardData', JSON.stringify(topEntries));
+
+    updateLeaderboard();
 }
+
 
 function endGame() {
     isGameActive = false;
@@ -365,7 +382,7 @@ function endGame() {
     tryAgainButton.style.display = '';
     Message.style.display = '';
     Message.innerHTML = `Congratulations, ${playerName}! Score: ${score} points`;
-    updateColors();
+    // updateColors();
 
 }
 

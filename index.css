@@ -204,6 +204,7 @@ button:hover {
 .top-player {
     background-color: #F4C753;
     font-weight: bold;
+    font-size: larger;
 }
 
 .current-player {
