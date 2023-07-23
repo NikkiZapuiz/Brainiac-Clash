@@ -166,25 +166,20 @@ button:hover {
 #volume {
     margin-top: 1vw;
 }
-/* 
-.question-container {
-    position: relative;
-} */
 
 .score-display {
     font-size: 18px; 
     font-weight: bold;
     color: white;
     padding: 3px 6px; 
-    background-color: rgb(113, 112, 112); 
-    position: absolute;
-    top: -105px;
-    right: 10px;
+    margin-right: 5vw;
     border-radius: 5%;
+    
 }
 
 .result-container {
     text-align: center;
+    margin-top: 20vh;
 }
 
 
@@ -204,11 +199,12 @@ button:hover {
     font-family: cursive;
     font-weight: 600;
     text-shadow: 1 5 50px #000000, 0 0 2px #fff, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073;
+    margin-top: 20vh;
 }
 
-.buttons {
+/* .buttons {
     height: 50vh;
-}
+} */
 
 #exitButton {
     margin: 2vh 2vh 2vh 0vh;
@@ -216,7 +212,7 @@ button:hover {
 }
 
 .categoryBtn-container {
-    margin-top: 5vh;
+    margin-top: 25vh;
 }
 
 
@@ -224,6 +220,9 @@ button:hover {
     margin-left: 10vw;
 }
 
+.form-control {
+    margin-top: 10vh;
+}
 
 
 

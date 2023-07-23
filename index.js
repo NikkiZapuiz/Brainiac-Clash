@@ -291,8 +291,16 @@ function checkAnswer(userAnswer) {
         correctAnswerElement.textContent = `The correct answer is ${correctAnswer}.`;
         if (timeElapsed <= 3) {
             score += 150; 
-        } else {
+        } else if (timeElapsed <= 5) {
+            score += 120; 
+        } else if (timeElapsed <= 8) {
+            score += 110; 
+        } else if (timeElapsed <= 10) {
             score += 100;
+        } else if (timeElapsed <= 12) {
+            score += 50;
+        } else {
+            score += 20;
         }
         playCorrectSound();
     } else {
@@ -305,6 +313,7 @@ function checkAnswer(userAnswer) {
     updateLeaderboard();
     addToLeaderboard();
 }
+
 
 function showQuestionContainer() {
     questionContainer.style.display = 'block';
