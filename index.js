@@ -381,7 +381,7 @@ function endGame() {
     tryAgainButton.style.display = '';
     Message.style.display = '';
     Message.innerHTML = `Congratulations, ${playerName}! Score: ${score} points`;
-    // updateColors();
+    updateColors();
 
 }
 
