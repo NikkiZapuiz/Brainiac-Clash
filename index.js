@@ -282,29 +282,29 @@ function startTimer() {
 
 function checkAnswer(userAnswer) {
     clearInterval(timer);
-    stopTimerSound();
+    stopTimerSound(); 
 
     const timeElapsed = gameTime - parseInt(gameTimer.textContent);
-
-
+    let pointsEarned = 0;
     if (userAnswer === correctAnswer) {
-
-        if (timeElapsed <= 3) {
-            pointsEarned = 150;
-        } else if (timeElapsed <= 5) {
-            pointsEarned = 120;
-        } else if (timeElapsed <= 8) {
-            pointsEarned = 110;
-        } else if (timeElapsed <= 10) {
-            pointsEarned = 100;
-        } else if (timeElapsed <= 12) {
-            pointsEarned = 50;
-        } else {
-            pointsEarned = 20;
-        }
-
         resultElement.textContent = "Correct!";
         correctAnswerElement.textContent = `The correct answer is ${correctAnswer}.`;
+        if (timeElapsed <= 3) {
+            score += 150; 
+            pointsEarned = 150;
+        } else if (timeElapsed <= 5) {
+            score += 120; 
+            pointsEarned = 120;
+        } else if (timeElapsed <= 7) {
+            score += 100; 
+            pointsEarned = 100;
+        } else if (timeElapsed <= 10) {
+            score += 75;
+            pointsEarned = 75;
+        } else {
+            score += 30;
+            pointsEarned = 30;
+        }
         playCorrectSound();
     } else {
         resultElement.textContent = "Incorrect!";
@@ -315,15 +315,11 @@ function checkAnswer(userAnswer) {
     const pointsEarnedElement = document.getElementById('points-earned');
     pointsEarnedElement.textContent = `+ ${pointsEarned} points`;
 
-
-    score += pointsEarned;
     updateScoreDisplay();
-
     showResultContainer();
     updateLeaderboard();
     addToLeaderboard();
 }
-
 
 
 function showQuestionContainer() {
